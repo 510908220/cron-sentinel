@@ -1,0 +1,584 @@
+2019-04-23 09:18:49,096 [Thread-3:140561048585984] [django.server:154] [basehttp:log_message] [ERROR]- "GET / HTTP/1.1" 500 87605
+2019-04-23 09:21:10,807 [Thread-2:140191336036096] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f80d9174630>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f80d9174630>[m
+    [36m└ None[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+    [36m│          │                │         │                └ {}[m
+    [36m│          │                │         └ ()[m
+    [36m│          │                └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m│          └ <function login_user at 0x7f80d713ad90>[m
+    [36m└ None[m
+  File "/home/remchu/ftp/cron-sentinel/sentinel/ui/views.py", line 28, in login_user
+    [33;1mreturn[m render(request, [31m'registration/login.html'[m)
+    [36m       │      └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m       └ <function render at 0x7f80d716d950>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+    [36m          │                       │              │        │              └ None[m
+    [36m          │                       │              │        └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m          │                       │              └ None[m
+    [36m          │                       └ 'registration/login.html'[m
+    [36m          └ <module 'django.template.loader' from '/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loader.py'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+    [36m           │            │                    └ None[m
+    [36m           │            └ 'registration/login.html'[m
+    [36m           └ <function get_template at 0x7f80d93bb0d0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loader.py", line 19, in get_template
+    [33;1mraise[m TemplateDoesNotExist(template_name, chain=chain)
+    [36m      │                    │                    └ [TemplateDoesNotExist('registration/login.html',)][m
+    [36m      │                    └ 'registration/login.html'[m
+    [36m      └ <class 'django.template.exceptions.TemplateDoesNotExist'>[m
+django.template.exceptions.TemplateDoesNotExist: registration/login.html
+
+2019-04-23 09:21:11,030 [Thread-2:140191336036096] [django.server:154] [basehttp:log_message] [ERROR]- "GET /login/?next=/ HTTP/1.1" 500 82761
+2019-04-23 09:26:35,875 [Thread-2:139677503846144] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f093a4b5a90>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f093a4b5a90>[m
+    [36m└ None[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+    [36m│          │                │         │                └ {}[m
+    [36m│          │                │         └ ()[m
+    [36m│          │                └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m│          └ <function login_user at 0x7f09385f0c80>[m
+    [36m└ None[m
+  File "/home/remchu/ftp/cron-sentinel/sentinel/ui/views.py", line 28, in login_user
+    [33;1mreturn[m render(request, [31m'registration/login.html'[m)
+    [36m       │      └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m       └ <function render at 0x7f093862c840>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+    [36m          │                       │              │        │              └ None[m
+    [36m          │                       │              │        └ <WSGIRequest: GET '/login/?next=/'>[m
+    [36m          │                       │              └ None[m
+    [36m          │                       └ 'registration/login.html'[m
+    [36m          └ <module 'django.template.loader' from '/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loader.py'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+    [36m           │            │                    └ None[m
+    [36m           │            └ 'registration/login.html'[m
+    [36m           └ <function get_template at 0x7f093a8cd0d0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loader.py", line 15, in get_template
+    [33;1mreturn[m engine.get_template(template_name)
+    [36m       │                   └ 'registration/login.html'[m
+    [36m       └ <django.template.backends.django.DjangoTemplates object at 0x7f093b529898>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    [33;1mreturn[m Template(self.engine.get_template(template_name), self)
+    [36m       │        │                        │               └ <django.template.backends.django.DjangoTemplates object at 0x7f093b529898>[m
+    [36m       │        │                        └ 'registration/login.html'[m
+    [36m       │        └ <django.template.backends.django.DjangoTemplates object at 0x7f093b529898>[m
+    [36m       └ <class 'django.template.backends.django.Template'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+    [36m                   │                  └ 'registration/login.html'[m
+    [36m                   └ <django.template.engine.Engine object at 0x7f093b529c18>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+    [36m           │                   │          └ None[m
+    [36m           │                   └ 'registration/login.html'[m
+    [36m           └ <django.template.loaders.filesystem.Loader object at 0x7f093820b4e0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loaders/base.py", line 24, in get_template
+    contents = self.get_contents(origin)
+    [36m           │                 └ <django.template.base.Origin object at 0x7f093820bb70>[m
+    [36m           └ <django.template.loaders.filesystem.Loader object at 0x7f093820b4e0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/template/loaders/filesystem.py", line 24, in get_contents
+    [33;1mreturn[m fp.read()
+    [36m       └ <_io.TextIOWrapper name='/home/remchu/ftp/cron-sentinel/sentinel/templates/registration/login.html' mode='r' encoding='utf-8'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/codecs.py", line 321, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+    [36m                     │                   │     │            └ True[m
+    [36m                     │                   │     └ <encodings.utf_8.IncrementalDecoder object at 0x7f093820bcc0>[m
+    [36m                     │                   └ b'{% load staticfiles %}\n\n{% block title %}\xb5\xc7\xc2\xbd{% endblock %} {% block content %}\n\n\n\n\n\n\n  <div class="container">\n\n    <!-- Outer Row -->\n    <div class="row justify-content-center">\n\n      <div class="col-xl-10 col-lg-12 col-md-9">\n\n        <div class="card o-hidden border-0 shadow-lg my-5">\n          <div class="card-body p-0">\n            <!-- Nested Row within Card Body -->\n            <div class="row">\n              <div class="col-lg-6 d-none d-lg-block bg-l...[m
+    [36m                     └ <encodings.utf_8.IncrementalDecoder object at 0x7f093820bcc0>[m
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 41: invalid start byte
+
+2019-04-23 09:26:36,026 [Thread-2:139677503846144] [django.server:154] [basehttp:log_message] [ERROR]- "GET /login/?next=/ HTTP/1.1" 500 118025
+2019-04-23 09:28:30,479 [Thread-4:139867547756288] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'iZuf61n1a2qocbsd65jygsZ'. You may need to add 'izuf61n1a2qocbsd65jygsz' to ALLOWED_HOSTS.
+2019-04-23 15:46:12,753 [Thread-43:140646513751808] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-23 17:27:44,781 [Thread-48:140646522144512] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'clientapi.ipip.net'. You may need to add 'clientapi.ipip.net' to ALLOWED_HOSTS.
+2019-04-24 01:52:19,834 [Thread-64:140646279014144] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-24 02:13:18,109 [Thread-65:140646279014144] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.luckcases.org'. You may need to add 'www.luckcases.org' to ALLOWED_HOSTS.
+2019-04-24 06:37:36,949 [Thread-73:140646522144512] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'xui.ptlogin2.qq.com:443'. You may need to add 'xui.ptlogin2.qq.com' to ALLOWED_HOSTS.
+2019-04-24 11:59:12,614 [Thread-82:140646504048384] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-24 12:49:57,059 [Thread-2:139691119007488] [django.server:154] [basehttp:log_message] [ERROR]- "POST /login/ HTTP/1.1" 500 179600
+2019-04-24 12:58:27,381 [Thread-2:139744454403840] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /logout/
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/logout/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f18cce2b7f0>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-RdoyJNhc/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    [31m'returned None instead.'[m % (callback.__module__, view_name)
+    [36m                            │                    └ 'logout'[m
+    [36m                            └ <function logout at 0x7f18ccbfe8c8>[m
+ValueError: The view django.contrib.auth.logout didn't return an HttpResponse object. It returned None instead.
+
+2019-04-24 12:58:27,445 [Thread-2:139744454403840] [django.server:154] [basehttp:log_message] [ERROR]- "GET /logout/ HTTP/1.1" 500 59013
+2019-04-24 17:24:49,886 [Thread-29:140620224366336] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'clientapi.ipip.net'. You may need to add 'clientapi.ipip.net' to ALLOWED_HOSTS.
+2019-04-24 17:53:12,902 [Thread-54:140620197877504] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+    [36m               │         └ 'static'[m
+    [36m               └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7fe4b5045240>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7fe4b5045240>[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+    [36m│          └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+    [36m│              └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+    [36m           │                     └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m           └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 63, in resolve_template
+    [33;1mreturn[m select_template(template, using=self.using)
+    [36m       │               │               └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m       │               └ ['dashboard.html'][m
+    [36m       └ <function select_template at 0x7fe4b53e6048>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader.py", line 42, in select_template
+    [33;1mreturn[m engine.get_template(template_name)
+    [36m       │                   └ 'dashboard.html'[m
+    [36m       └ <django.template.backends.django.DjangoTemplates object at 0x7fe4b603ad68>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    [33;1mreturn[m Template(self.engine.get_template(template_name), self)
+    [36m       │        │                        │               └ <django.template.backends.django.DjangoTemplates object at 0x7fe4b603ad68>[m
+    [36m       │        │                        └ 'dashboard.html'[m
+    [36m       │        └ <django.template.backends.django.DjangoTemplates object at 0x7fe4b603ad68>[m
+    [36m       └ <class 'django.template.backends.django.Template'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+    [36m                   │                  └ 'dashboard.html'[m
+    [36m                   └ <django.template.engine.Engine object at 0x7fe4b30a5588>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+    [36m           │                   │          └ None[m
+    [36m           │                   └ 'dashboard.html'[m
+    [36m           └ <django.template.loaders.filesystem.Loader object at 0x7fe4b18551d0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+    [36m│         │       │                     └ <django.template.loaders.filesystem.Loader object at 0x7fe4b18551d0>[m
+    [36m│         │       └ <django.template.base.Origin object at 0x7fe4b1790208>[m
+    [36m│         └ <django.template.base.Origin object at 0x7fe4b1790208>[m
+    [36m└ '{% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}\n          <!-- Page Heading -->\n          <div class="d-sm-flex align-items-center justify-content-between mb-4">\n            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>\n            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i>创建服务</a>\n          </div>\n\n          <!-- Content Row -->\n          <div class="row">\n\n ...[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+    [36m│               └ <django.template.base.Template object at 0x7fe4b1790518>[m
+    [36m└ <django.template.base.Template object at 0x7fe4b1790518>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 194, in compile_nodelist
+    [33;1mreturn[m parser.parse()
+    [36m       └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 478, in parse
+    [33;1mraise[m self.error(token, e)
+    [36m      │          └ <django.template.base.Token object at 0x7fe4b1790780>[m
+    [36m      └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+    [36m                  │            │     └ <django.template.base.Token object at 0x7fe4b1790780>[m
+    [36m                  │            └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+    [36m                  └ <function do_extends at 0x7fe4b5030d90>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+    [36m           └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 478, in parse
+    [33;1mraise[m self.error(token, e)
+    [36m      │          └ <django.template.base.Token object at 0x7fe4b17904e0>[m
+    [36m      └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+    [36m│                 │            │     └ <django.template.base.Token object at 0x7fe4b17904e0>[m
+    [36m│                 │            └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+    [36m│                 └ <function do_block at 0x7fe4b5030c80>[m
+    [36m└ <Block Node: content. Contents: [<TextNode: '\n          <!-- Page Head'>]>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(([31m'endblock'[m,))
+    [36m           └ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+    [36m│                      │      │        └ ('endblock',)[m
+    [36m│                      │      └ 'static'[m
+    [36m│                      └ <django.template.base.Token object at 0x7fe4b1790710>[m
+    [36m└ <django.template.base.Parser object at 0x7fe4b1794fd0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 528, in invalid_block_tag
+    get_text_list([[31m''%s''[m % p for p in parse_until], [31m'or'[m),
+    [36m│                                  └ ('endblock',)[m
+    [36m└ <function get_text_list at 0x7fe4b7d78ae8>[m
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 519: 'static', expected 'endblock'. Did you forget to register or load this tag?
+
+2019-04-24 17:53:13,155 [Thread-54:140620197877504] [django.server:154] [basehttp:log_message] [ERROR]- "GET / HTTP/1.1" 500 167368
+2019-04-24 17:54:29,136 [Thread-62:140620215973632] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+    [36m               │         └ 'static'[m
+    [36m               └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7fe4b5045240>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7fe4b5045240>[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+    [36m│          └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+    [36m│              └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+    [36m           │                     └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m           └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 63, in resolve_template
+    [33;1mreturn[m select_template(template, using=self.using)
+    [36m       │               │               └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m       │               └ ['dashboard.html'][m
+    [36m       └ <function select_template at 0x7fe4b53e6048>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader.py", line 42, in select_template
+    [33;1mreturn[m engine.get_template(template_name)
+    [36m       │                   └ 'dashboard.html'[m
+    [36m       └ <django.template.backends.django.DjangoTemplates object at 0x7fe4b603ad68>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    [33;1mreturn[m Template(self.engine.get_template(template_name), self)
+    [36m       │        │                        │               └ <django.template.backends.django.DjangoTemplates object at 0x7fe4b603ad68>[m
+    [36m       │        │                        └ 'dashboard.html'[m
+    [36m       │        └ <django.template.backends.django.DjangoTemplates object at 0x7fe4b603ad68>[m
+    [36m       └ <class 'django.template.backends.django.Template'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+    [36m                   │                  └ 'dashboard.html'[m
+    [36m                   └ <django.template.engine.Engine object at 0x7fe4b30a5588>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+    [36m           │                   │          └ None[m
+    [36m           │                   └ 'dashboard.html'[m
+    [36m           └ <django.template.loaders.filesystem.Loader object at 0x7fe4b18551d0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+    [36m│         │       │                     └ <django.template.loaders.filesystem.Loader object at 0x7fe4b18551d0>[m
+    [36m│         │       └ <django.template.base.Origin object at 0x7fe4b1771cc0>[m
+    [36m│         └ <django.template.base.Origin object at 0x7fe4b1771cc0>[m
+    [36m└ '{% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}\n          <!-- Page Heading -->\n          <div class="d-sm-flex align-items-center justify-content-between mb-4">\n            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>\n            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i>创建服务</a>\n          </div>\n\n          <!-- Content Row -->\n          <div class="row">\n\n ...[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+    [36m│               └ <django.template.base.Template object at 0x7fe4b1771080>[m
+    [36m└ <django.template.base.Template object at 0x7fe4b1771080>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 194, in compile_nodelist
+    [33;1mreturn[m parser.parse()
+    [36m       └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 478, in parse
+    [33;1mraise[m self.error(token, e)
+    [36m      │          └ <django.template.base.Token object at 0x7fe4b1771b38>[m
+    [36m      └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+    [36m                  │            │     └ <django.template.base.Token object at 0x7fe4b1771b38>[m
+    [36m                  │            └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+    [36m                  └ <function do_extends at 0x7fe4b5030d90>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+    [36m           └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 478, in parse
+    [33;1mraise[m self.error(token, e)
+    [36m      │          └ <django.template.base.Token object at 0x7fe4b1717978>[m
+    [36m      └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+    [36m│                 │            │     └ <django.template.base.Token object at 0x7fe4b1717978>[m
+    [36m│                 │            └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+    [36m│                 └ <function do_block at 0x7fe4b5030c80>[m
+    [36m└ <Block Node: content. Contents: [<TextNode: '\n          <!-- Page Head'>]>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(([31m'endblock'[m,))
+    [36m           └ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+    [36m│                      │      │        └ ('endblock',)[m
+    [36m│                      │      └ 'static'[m
+    [36m│                      └ <django.template.base.Token object at 0x7fe4b1717128>[m
+    [36m└ <django.template.base.Parser object at 0x7fe4b17176d8>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 528, in invalid_block_tag
+    get_text_list([[31m''%s''[m % p for p in parse_until], [31m'or'[m),
+    [36m│                                  └ ('endblock',)[m
+    [36m└ <function get_text_list at 0x7fe4b7d78ae8>[m
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 519: 'static', expected 'endblock'. Did you forget to register or load this tag?
+
+2019-04-24 17:54:29,429 [Thread-62:140620215973632] [django.server:154] [basehttp:log_message] [ERROR]- "GET / HTTP/1.1" 500 167368
+2019-04-24 18:13:15,124 [Thread-2:139825006921472] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f2b927451d0>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f2b927451d0>[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+    [36m│          └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+    [36m│              └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 83, in rendered_content
+    content = template.render(context, self._request)
+    [36m          │               │        └ <TemplateResponse status_code=200, "text/html; charset=utf-8">[m
+    [36m          │               └ {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}[m
+    [36m          └ <django.template.backends.django.Template object at 0x7f2b901ac240>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    [33;1mreturn[m self.template.render(context)
+    [36m       │                    └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <django.template.backends.django.Template object at 0x7f2b901ac240>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    [33;1mreturn[m self._render(context)
+    [36m       │            └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <django.template.base.Template object at 0x7f2b901ac9b0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    [33;1mreturn[m self.nodelist.render(context)
+    [36m       │                    └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <django.template.base.Template object at 0x7f2b901ac9b0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+    [36m      │                     └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m      └ <ExtendsNode: extends "base.html">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    [33;1mreturn[m self.render(context)
+    [36m       │           └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <ExtendsNode: extends "base.html">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    [33;1mreturn[m compiled_parent._render(context)
+    [36m       │                       └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <django.template.base.Template object at 0x7f2b90163d30>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    [33;1mreturn[m self.nodelist.render(context)
+    [36m       │                    └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <django.template.base.Template object at 0x7f2b90163d30>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+    [36m│     │                     └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m│     └ <django.template.defaulttags.URLNode object at 0x7f2b9016aa58>[m
+    [36m└ '" rel="stylesheet">\n\n</head>\n\n<body id="page-top">\n\n  <!-- Page Wrapper -->\n  <div id="wrapper">\n\n    <!-- Sidebar -->\n    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">\n\n      <!-- Sidebar - Brand -->\n      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">\n        <div class="sidebar-brand-icon rotate-n-15">\n          <i class="fas fa-laugh-wink"></i>\n        </div>\n        <div class="sidebar-b...[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    [33;1mreturn[m self.render(context)
+    [36m       │           └ [{'True': True, 'False': False, 'None': None}, {}, {}, {'view': <ui.views.DashboardView object at 0x7f2b907027b8>, 'title': ''}][m
+    [36m       └ <django.template.defaulttags.URLNode object at 0x7f2b9016aa58>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/defaulttags.py", line 443, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+    [36m│     │       │               │            │                   └ ''[m
+    [36m│     │       │               │            └ {}[m
+    [36m│     │       │               └ [][m
+    [36m│     │       └ 'service'[m
+    [36m│     └ <function reverse at 0x7f2b92890158>[m
+    [36m└ ''[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/urls/base.py", line 90, in reverse
+    [33;1mreturn[m iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+    [36m       │          │                             │     │        │       └ {}[m
+    [36m       │          │                             │     │        └ [][m
+    [36m       │          │                             │     └ '/'[m
+    [36m       │          │                             └ 'service'[m
+    [36m       │          └ <URLResolver 'sentinel.urls' (None:None) '^/'>[m
+    [36m       └ <function iri_to_uri at 0x7f2b94a48c80>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/urls/resolvers.py", line 660, in _reverse_with_prefix
+    [33;1mraise[m NoReverseMatch(msg)
+    [36m      │              └ "Reverse for 'service' not found. 'service' is not a valid view function or pattern name."[m
+    [36m      └ <class 'django.urls.exceptions.NoReverseMatch'>[m
+django.urls.exceptions.NoReverseMatch: Reverse for 'service' not found. 'service' is not a valid view function or pattern name.
+
+2019-04-24 18:13:15,512 [Thread-2:139825006921472] [django.server:154] [basehttp:log_message] [ERROR]- "GET / HTTP/1.1" 500 146887
+2019-04-24 22:05:28,033 [Thread-23:139824998528768] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-25 06:26:05,869 [Thread-37:139824998528768] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-25 06:37:40,927 [Thread-42:139824964957952] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'xui.ptlogin2.qq.com:443'. You may need to add 'xui.ptlogin2.qq.com' to ALLOWED_HOSTS.
+2019-04-25 08:18:10,614 [Thread-47:139824956303104] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-25 17:41:09,726 [Thread-63:139824981743360] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'clientapi.ipip.net'. You may need to add 'clientapi.ipip.net' to ALLOWED_HOSTS.
+2019-04-25 17:41:09,839 [Thread-63:139824981743360] [django.server:154] [basehttp:log_message] [ERROR]- "GET http://clientapi.ipip.net/echo.php?info=1234567890 HTTP/1.1" 500 59
+2019-04-25 18:25:01,560 [Thread-64:139824981743360] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-25 18:40:52,078 [Thread-65:139824981743360] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'xui.ptlogin2.qq.com:443'. You may need to add 'xui.ptlogin2.qq.com' to ALLOWED_HOSTS.
+2019-04-25 19:27:12,766 [Thread-72:139824956303104] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-26 04:32:12,146 [Thread-95:139824956303104] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-26 07:12:43,052 [Thread-98:139824956303104] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-26 08:17:39,735 [Thread-102:139824956303104] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-26 10:36:33,341 [Thread-106:139824956303104] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-26 14:39:22,026 [Thread-179:139825006921472] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-26 20:30:48,919 [Thread-9:140041210214144] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'clientapi.ipip.net'. You may need to add 'clientapi.ipip.net' to ALLOWED_HOSTS.
+2019-04-27 00:48:57,066 [Thread-14:140041210214144] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-27 03:18:47,793 [Thread-17:140041210214144] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'ak.hypergryph.com'. You may need to add 'ak.hypergryph.com' to ALLOWED_HOSTS.
+2019-04-27 04:41:29,026 [Thread-19:140041210214144] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'ak.hypergryph.com'. You may need to add 'ak.hypergryph.com' to ALLOWED_HOSTS.
+2019-04-27 05:51:10,251 [Thread-22:140041192380160] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.qq.com'. You may need to add 'www.qq.com' to ALLOWED_HOSTS.
+2019-04-27 05:51:10,308 [Thread-22:140041192380160] [django.server:154] [basehttp:log_message] [ERROR]- "GET http://www.qq.com/404/search_children.js HTTP/1.1" 500 59
+2019-04-27 07:18:21,514 [Thread-23:140041200772864] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-27 07:34:23,169 [Thread-26:140041200772864] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'ak.hypergryph.com'. You may need to add 'ak.hypergryph.com' to ALLOWED_HOSTS.
+2019-04-27 09:51:35,708 [Thread-28:140041200772864] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'ak.hypergryph.com'. You may need to add 'ak.hypergryph.com' to ALLOWED_HOSTS.
+2019-04-27 10:58:01,210 [Thread-30:140041200772864] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'www.baidu.com'. You may need to add 'www.baidu.com' to ALLOWED_HOSTS.
+2019-04-27 14:53:05,264 [Thread-31:140041200772864] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'sky'. You may need to add 'sky' to ALLOWED_HOSTS.
+2019-04-27 17:29:50,209 [Thread-37:140041200772864] [django.security.DisallowedHost:77] [exception:response_for_exception] [ERROR]- Invalid HTTP_HOST header: 'clientapi.ipip.net'. You may need to add 'clientapi.ipip.net' to ALLOWED_HOSTS.
+2019-04-30 14:32:15,241 [Thread-2:140541245548288] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /api/services/
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/api/services/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7fd2517bdcc0>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/api/services/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7fd2517bdcc0>[m
+    [36m└ None[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+    [36m│          │                │         │                └ {}[m
+    [36m│          │                │         └ ()[m
+    [36m│          │                └ <WSGIRequest: GET '/api/services/'>[m
+    [36m│          └ <function ServiceViewSet at 0x7fd24f8e6598>[m
+    [36m└ None[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    [33;1mreturn[m view_func(*args, **kwargs)
+    [36m       │          │       └ {}[m
+    [36m       │          └ (<WSGIRequest: GET '/api/services/'>,)[m
+    [36m       └ <function ServiceViewSet at 0x7fd2528631e0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/viewsets.py", line 116, in view
+    [33;1mreturn[m self.dispatch(request, *args, **kwargs)
+    [36m       │             │         │       └ {}[m
+    [36m       │             │         └ ()[m
+    [36m       │             └ <WSGIRequest: GET '/api/services/'>[m
+    [36m       └ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+    [36m           └ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+    [36m│                             └ TypeError("__init__() got an unexpected keyword argument 'name'",)[m
+    [36m└ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+    [36m           │       │         │       └ {}[m
+    [36m           │       │         └ ()[m
+    [36m           │       └ <rest_framework.request.Request object at 0x7fd24df85438>[m
+    [36m           └ <bound method ListModelMixin.list of <api.views.ServiceViewSet object at 0x7fd24df85710>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/mixins.py", line 40, in list
+    queryset = self.filter_queryset(self.get_queryset())
+    [36m           │                    └ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+    [36m           └ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/generics.py", line 152, in filter_queryset
+    queryset = backend().filter_queryset(self.request, queryset, self)
+    [36m│          │                         │             │         └ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+    [36m│          │                         │             └ <QuerySet []>[m
+    [36m│          │                         └ <api.views.ServiceViewSet object at 0x7fd24df85710>[m
+    [36m│          └ <class 'django_filters.rest_framework.backends.DjangoFilterBackend'>[m
+    [36m└ <QuerySet []>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/rest_framework/backends.py", line 94, in filter_queryset
+    if not filterset.is_valid() and self.raise_exception:
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/filterset.py", line 206, in is_valid
+    [33;1mreturn[m self.is_bound and self.form.is_valid()
+    [36m       │                 └ <api.views.ServiceFilter object at 0x7fd24df85ef0>[m
+    [36m       └ <api.views.ServiceFilter object at 0x7fd24df85ef0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/filterset.py", line 258, in form
+    Form = self.get_form_class()
+    [36m       └ <api.views.ServiceFilter object at 0x7fd24df85ef0>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/filterset.py", line 250, in get_form_class
+    for name, filter_ in self.filters.items()])
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/filterset.py", line 250, in <listcomp>
+    for name, filter_ in self.filters.items()])
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/filters.py", line 140, in field
+    self._field = self.field_class(label=self.label, **field_kwargs)
+    [36m│             │                      │             └ {'name': 'tags', 'required': False}[m
+    [36m│             │                      └ <api.views.M2MFilter object at 0x7fd24df850b8>[m
+    [36m│             └ <api.views.M2MFilter object at 0x7fd24df850b8>[m
+    [36m└ <api.views.M2MFilter object at 0x7fd24df850b8>[m
+TypeError: __init__() got an unexpected keyword argument 'name'
+
+2019-04-30 14:32:15,436 [Thread-2:140541245548288] [django.server:154] [basehttp:log_message] [ERROR]- "GET /api/services/ HTTP/1.1" 500 119384
+2019-04-30 14:37:13,578 [Thread-2:139917058569984] [django.request:228] [log:log_response] [ERROR]- Internal Server Error: /api/services/
+Traceback (most recent call last):
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+    [36m           │            └ <WSGIRequest: GET '/api/services/'>[m
+    [36m           └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f40fb09e588>>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+    [36m│          │                                       └ <WSGIRequest: GET '/api/services/'>[m
+    [36m│          └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f40fb09e588>[m
+    [36m└ <Response status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+    [36m│          └ <Response status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <Response status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+    [36m│              └ <Response status_code=200, "text/html; charset=utf-8">[m
+    [36m└ <Response status_code=200, "text/html; charset=utf-8">[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/response.py", line 72, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+    [36m      │               │          │                    └ {'view': <api.views.ServiceViewSet object at 0x7f40fadec860>, 'args': (), 'kwargs': {}, 'request': <rest_framework.request.Request object at 0x7f40fa955518>, 'response': <Response status_code=200, "text/html; charset=utf-8">, 'indent': 4}[m
+    [36m      │               │          └ 'text/html'[m
+    [36m      │               └ <Response status_code=200, "text/html; charset=utf-8">[m
+    [36m      └ <rest_framework.renderers.BrowsableAPIRenderer object at 0x7f40fa955630>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/renderers.py", line 733, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+    [36m          │                │     │                    └ {'view': <api.views.ServiceViewSet object at 0x7f40fadec860>, 'args': (), 'kwargs': {}, 'request': <rest_framework.request.Request object at 0x7f40fa955518>, 'response': <Response status_code=200, "text/html; charset=utf-8">, 'indent': 4}[m
+    [36m          │                │     └ 'text/html'[m
+    [36m          │                └ [][m
+    [36m          └ <rest_framework.renderers.BrowsableAPIRenderer object at 0x7f40fa955630>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/renderers.py", line 710, in get_context
+    'filter_form': self.get_filter_form(data, view, request),
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/rest_framework/renderers.py", line 642, in get_filter_form
+    html = backend().to_html(request, queryset, view)
+    [36m       │                 │        │         └ <api.views.ServiceViewSet object at 0x7f40fadec860>[m
+    [36m       │                 │        └ <QuerySet []>[m
+    [36m       │                 └ <rest_framework.request.Request object at 0x7f40fa955518>[m
+    [36m       └ <class 'django_filters.rest_framework.backends.DjangoFilterBackend'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django_filters/rest_framework/backends.py", line 103, in to_html
+    template = loader.get_template(self.template)
+    [36m           │                   └ <django_filters.rest_framework.backends.DjangoFilterBackend object at 0x7f40f987cf60>[m
+    [36m           └ <module 'django.template.loader' from '/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader.py'>[m
+  File "/root/.local/share/virtualenvs/cron-sentinel-ahU0IziT/lib/python3.6/site-packages/django/template/loader.py", line 19, in get_template
+    [33;1mraise[m TemplateDoesNotExist(template_name, chain=chain)
+    [36m      │                    │                    └ [TemplateDoesNotExist('django_filters/rest_framework/form.html',)][m
+    [36m      │                    └ 'django_filters/rest_framework/form.html'[m
+    [36m      └ <class 'django.template.exceptions.TemplateDoesNotExist'>[m
+django.template.exceptions.TemplateDoesNotExist: django_filters/rest_framework/form.html
+
+2019-04-30 14:37:13,770 [Thread-2:139917058569984] [django.server:154] [basehttp:log_message] [ERROR]- "GET /api/services/ HTTP/1.1" 500 102981
