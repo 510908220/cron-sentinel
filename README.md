@@ -3,6 +3,7 @@ is  a tool to monitor your scheduled jobs (or cron jobs).
 
 ## influxdb
 
+#### 数据库创建
 > 因为在阿里云环境,有防火墙, 所以没开启http认证
 
 
@@ -12,18 +13,46 @@ influx -precision rfc3339
 
 创建数据库
 ```
-CREATE DATABASE pings
+CREATE DATABASE sentinel
 ```
 
 查看保留策略
 ```
-show retention policies on pings
+show retention policies on sentinel
 ```
 
 创建一个`30`天的策略
 ```
- create retention policy "30_days" on "pings" duration 30d replication 1 default
+ create retention policy "30_days" on "sentinel" duration 30d replication 1 default
 ```
+
+#### python操作
+
+https://github.com/influxdata/influxdb-python
+
+```
+from influxdb import InfluxDBClient
+client = InfluxDBClient('localhost', 8086, 'root', 'root', 'sentinel')
+json_body = [
+    {
+        "measurement": "pings",
+        "tags": {
+            "host": "10.5.2.5"
+        },
+        "time": "2019-6-3 17:10:04",
+        "fields": {
+            "value": 0.64
+        }
+    }
+]
+client.write_points(json_body)
+
+result = client.query('select value from pings;')
+
+print("Result: {0}".format(result))
+
+
+```python
 ## MYSQL
 
 ```
@@ -35,3 +64,8 @@ docker run -p 3066:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs
 ```
 CREATE DATABASE sentinel  CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
+## 通知
+
+1. NODATA   ---->   OK 启动
+2. OK----------> DOWN 异常
+3. DOWN--------ok 恢复
