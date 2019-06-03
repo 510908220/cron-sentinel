@@ -30,7 +30,7 @@ show retention policies on sentinel
 
 https://github.com/influxdata/influxdb-python
 
-```
+```python
 from influxdb import InfluxDBClient
 client = InfluxDBClient('localhost', 8086, 'root', 'root', 'sentinel')
 json_body = [
@@ -51,19 +51,20 @@ result = client.query('select value from pings;')
 
 print("Result: {0}".format(result))
 
+```
 
-```python
 ## MYSQL
 
-```
+```shell
 docker run -p 3066:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD='!@#$ESZAQ' -d mysql
 ```
 
 创建数据库
 
-```
+```sql
 CREATE DATABASE sentinel  CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
+
 ## 通知
 
 1. NODATA   ---->   OK 启动
