@@ -16,6 +16,8 @@ from rest_framework import (authentication,
 from .models import Tag, Service
 from .serializers import TagSerializer, ServiceSerializer
 
+from .api.influxdb_api import InfluxDBAPI
+
 
 class DefaultsMixin(object):
     authentication_classes = (
@@ -68,23 +70,41 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
         # queryset = User.objects.all()
         # serializer = UserSerializer(queryset, many=True)
         return Response([])
+
     def create(self, request):
-        short_url = request.query_params.get('service')
-        service_obj = get_object_or_404(Service, short_url=short_url)
+        unique_id = request.query_params.get('unique_id')
+        value = request.query_params.get('value')
+
+        service_obj = get_object_or_404(Service, unique_id=unique_id)
 
         headers = request.META
-        remote_addr = headers.get("HTTP_X_FORWARDED_FOR", headers["REMOTE_ADDR"])
+        remote_addr = headers.get(
+            "HTTP_X_FORWARDED_FOR", headers["REMOTE_ADDR"])
         remote_addr = remote_addr.split(",")[0]
 
-        params = dict(self.request.data)
-        params.update({
-            'data': request.query_params.get('data'),
-            'remote_addr': remote_addr,
-            'ua': headers.get("HTTP_USER_AGENT", "")
-        })
-        ping = service_obj.pings.create(**params)
+        json_body = [
+            {
+                "measurement": "pings",
+                "tags": {
+                    "host": remote_addr,
+                    "service_unique_id": unique_id,
+                    "ua": headers.get("HTTP_USER_AGENT", ""),
 
-        return Response(PingSerializer(ping).data)
+                },
+                "time": "2019-6-4 12:54:39",
+                "fields": {
+                    "value": value
+                }
+            }
+        ]
+
+        status = True
+        with InfluxDBAPI() as f:
+            status = f.write_pings(json_body)
+
+        return Response({
+            'status': status
+        })
 
 
 class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):

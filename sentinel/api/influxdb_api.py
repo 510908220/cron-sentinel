@@ -38,7 +38,7 @@ class InfluxDBAPI(object):
             }
         ]
         '''
-        self.client.write_points(json_body)
+        return self.client.write_points(json_body)
 
     def get_pings(self, tags):
         rs = self.client.query('select * from pings;')

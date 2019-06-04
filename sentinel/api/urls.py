@@ -8,6 +8,7 @@ router = routers.DefaultRouter()  # DefaultRouter会生成rootview
 router.register(r'services', views.ServiceViewSet)
 router.register(r'tags', views.TagViewSet)
 router.register(r'pings', views.PingViewSet, 'pings')
+
 # router.register(r'alerts', views.AlertViewSet)
 # router.register(r'users', views.UserViewSet)
-# 
+#
