@@ -16,7 +16,7 @@ from rest_framework import (authentication,
 from .models import Tag, Service
 from .serializers import TagSerializer, ServiceSerializer
 
-from .api.influxdb_api import InfluxDBAPI
+from .influxdb_api import InfluxDBAPI
 
 
 class DefaultsMixin(object):
