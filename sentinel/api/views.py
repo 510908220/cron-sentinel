@@ -67,27 +67,39 @@ class TagViewSet(DefaultsMixin, viewsets.ModelViewSet):
 class PingViewSet(DefaultsMixin, viewsets.ViewSet):
 
     def list(self, request):
-        # queryset = User.objects.all()
-        # serializer = UserSerializer(queryset, many=True)
-        return Response([])
+        service_unique_id = request.query_params.get('service_unique_id')
+
+        results = []
+        index = 1
+        with InfluxDBAPI() as f:
+            pings = f.get_pings({
+                'service_unique_id': service_unique_id
+            })
+        for ping in pings:
+            results.append(ping)
+            index += 1
+            if index > 10:
+                break
+
+        return Response([results
 
     def create(self, request):
-        unique_id = request.query_params.get('unique_id')
-        value = request.query_params.get('value')
+        service_unique_id=request.query_params.get('service_unique_id')
+        value=request.query_params.get('value')
 
-        service_obj = get_object_or_404(Service, unique_id=unique_id)
+        service_obj=get_object_or_404(Service, unique_id=service_unique_id)
 
-        headers = request.META
-        remote_addr = headers.get(
+        headers=request.META
+        remote_addr=headers.get(
             "HTTP_X_FORWARDED_FOR", headers["REMOTE_ADDR"])
-        remote_addr = remote_addr.split(",")[0]
+        remote_addr=remote_addr.split(",")[0]
 
-        json_body = [
+        json_body=[
             {
                 "measurement": "pings",
                 "tags": {
                     "host": remote_addr,
-                    "service_unique_id": unique_id,
+                    "service_unique_id": service_unique_id,
                     "ua": headers.get("HTTP_USER_AGENT", ""),
 
                 },
@@ -98,9 +110,9 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
             }
         ]
 
-        status = True
+        status=True
         with InfluxDBAPI() as f:
-            status = f.write_pings(json_body)
+            status=f.write_pings(json_body)
 
         return Response({
             'status': status
@@ -108,29 +120,29 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
 
 
 class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    queryset = Service.objects.order_by('created')
-    serializer_class = ServiceSerializer
+    queryset=Service.objects.order_by('created')
+    serializer_class=ServiceSerializer
 
-    ordering_fields = ('updated', )
-    filter_class = ServiceFilter
-    filter_fields = ('tags', 'status', 'tp')
+    ordering_fields=('updated', )
+    filter_class=ServiceFilter
+    filter_fields=('tags', 'status', 'tp')
 
     def get_queryset(self):
         return self.queryset.all()
 
     def create(self, request):
-        params = dict(self.request.data)
-        tags = params.pop('tags', '')
-        service = Service(**params)
+        params=dict(self.request.data)
+        tags=params.pop('tags', '')
+        service=Service(**params)
         service.save()
         for tag in tags.strip().split(","):
-            tag_obj, _ = Tag.objects.get_or_create(name=tag)
+            tag_obj, _=Tag.objects.get_or_create(name=tag)
             service.tags.add(tag_obj)
 
         return Response(ServiceSerializer(service).data)
 
     def update(self, request, pk=None):
-        params = dict(self.request.data)
+        params=dict(self.request.data)
 
         # 时间字段会自动更新的
         params.pop('created', '')
@@ -139,15 +151,15 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
         # 取出tags字段, 先更新Service. 注意这里需要传入这样的格式['name1', 'name2']
 
         if 'tags' in params:
-            tags = params.pop('tags')
+            tags=params.pop('tags')
             Service.objects.filter(pk=pk).update(**params)
-            service = Service.objects.get(id=pk)
+            service=Service.objects.get(id=pk)
             service.tags.clear()
             for tag in tags.strip().split(","):
-                tag_obj, _ = Tag.objects.get_or_create(name=tag)
+                tag_obj, _=Tag.objects.get_or_create(name=tag)
                 service.tags.add(tag_obj)
         else:
             Service.objects.filter(pk=pk).update(**params)
-            service = Service.objects.get(id=pk)
+            service=Service.objects.get(id=pk)
         service.save()  # 更新时间字段
         return Response(ServiceSerializer(service).data)
