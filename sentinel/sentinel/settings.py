@@ -134,6 +134,16 @@ USE_L10N = True
 USE_TZ = False
 
 
+# InfluxDB 设置
+INFLUXDB = {
+    'host': 'localhost',
+    'port': 8086,
+    'username': 'root',
+    'password': 'root',
+    'database': 'sentinel'
+}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -211,6 +221,3 @@ LOGGING = {
 
     }
 }
-
-
-

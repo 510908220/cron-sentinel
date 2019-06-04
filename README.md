@@ -29,6 +29,7 @@ show retention policies on sentinel
 #### python操作
 
 https://github.com/influxdata/influxdb-python
+https://influxdb-python.readthedocs.io/en/latest/resultset.html
 
 ```python
 from influxdb import InfluxDBClient
@@ -37,11 +38,12 @@ json_body = [
     {
         "measurement": "pings",
         "tags": {
-            "host": "10.5.2.5"
+            "host": "10.5.2.5",
+            "service_unique_id": 'xxxxxxx'
         },
-        "time": "2019-6-3 17:10:04",
+        "time": "2019-6-4 12:54:39",
         "fields": {
-            "value": 0.64
+            "value": 0.8
         }
     }
 ]
