@@ -42,9 +42,12 @@ class M2MFilter(django_filters.Filter):
         if not value:
             return qs
 
-        values = value.split(',')
+        values = value.strip().split(',')
         for v in values:
-            qs = qs.filter(tags=v)
+            tag_objs = Tag.objects.filter(name=v)
+            if not tag_objs:
+                continue
+            qs = qs.filter(tags=tag_objs[0])
         return qs
 
 
@@ -133,11 +136,9 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     def create(self, request):
         params = self.request.data
-        params.pop('csrfmiddlewaretoken', '')
         tags = params.pop('tags', '')
 
-        params['assigned'] = get_object_or_404(
-            User, username=params['assigned'])
+        params['assigned'] = request.user
 
         service = Service(**params)
         service.save()
@@ -152,18 +153,12 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
     def update(self, request, pk=None):
         params = self.request.data
 
-        # 时间字段会自动更新的
-        params.pop('created', '')
-        params.pop('updated', '')
-
-        # 取出tags字段, 先更新Service. 注意这里需要传入这样的格式['name1', 'name2']
-
         if 'tags' in params:
             tags = params.pop('tags')
             Service.objects.filter(pk=pk).update(**params)
             service = Service.objects.get(id=pk)
             service.tags.clear()
-            for tag in tags.strip().split(","):
+            for tag in tags:
                 tag_obj, _ = Tag.objects.get_or_create(name=tag)
                 service.tags.add(tag_obj)
         else:

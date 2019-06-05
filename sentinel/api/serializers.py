@@ -14,15 +14,13 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'created', 'updated')
 
 
-
-
 class ServiceSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
 
     class Meta:
         model = Service
-        fields = ('id', 'name', 'status', 'tp','last_check_timestamp',
-                  'value', 'grace', 'unique_id','alert_count','assigned',
+        fields = ('id', 'name', 'status', 'tp', 'last_check_timestamp',
+                  'value', 'grace', 'unique_id', 'alert_count', 'assigned',
                   'tags', 'alert_interval_min', 'last_alert_timestamp',
                   'created', 'updated')
     assigned = serializers.SlugRelatedField(
@@ -31,6 +29,7 @@ class ServiceSerializer(serializers.ModelSerializer):
         allow_null=True,
         queryset=User.objects.all()
     )
+
     def get_links(self, obj):
         request = self.context['request']
         links = {
@@ -41,9 +40,11 @@ class ServiceSerializer(serializers.ModelSerializer):
             links['assigned'] = reverse(
                 'user-detail', kwargs={User.USERNAME_FIELD: obj.assigned}, request=request)
         return links
+
     def validate(self, attrs):
         return attrs
-       
+
+
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source='get_full_name', read_only=True)
     links = serializers.SerializerMethodField()
@@ -67,4 +68,3 @@ class UserSerializer(serializers.ModelSerializer):
         return {
             'self': reverse('user-detail', kwargs={User.USERNAME_FIELD: obj.get_username()}, request=request)
         }
-
