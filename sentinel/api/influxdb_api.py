@@ -17,7 +17,7 @@ class InfluxDBAPI(object):
         self.client = InfluxDBClient(**settings.INFLUXDB)
 
     def __enter__(self):
-        return self.client
+        return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.client.close()
