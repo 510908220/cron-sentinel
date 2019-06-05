@@ -88,8 +88,8 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
         return Response(results)
 
     def create(self, request):
-        service_unique_id = request.query_params.get('service_unique_id')
-        value = request.query_params.get('value')
+        service_unique_id = request.data.get('service_unique_id')
+        value = request.data.get('value')
 
         service_obj = get_object_or_404(Service, unique_id=service_unique_id)
 

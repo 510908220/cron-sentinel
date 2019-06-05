@@ -67,6 +67,23 @@ docker run -p 3066:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs
 CREATE DATABASE sentinel  CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
+## 接口
+
+#### 获取服务对应的上报数据
+
+```
+/api/pings/?service_unique_id=d4494a5b-b6e6-4654-b19c-aae65642aa84
+```
+
+#### 获取当前登陆用户的服务
+
+```
+/api/services/?tags=aaa
+```
+
+
+
+
 ## 通知
 
 1. NODATA   ---->   OK 启动
