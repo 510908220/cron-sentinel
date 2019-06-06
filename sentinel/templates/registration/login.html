@@ -3,97 +3,109 @@
 <html lang="en">
 
 <head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <!-- Title Page-->
+    <title>Cron Sentinel</title>
 
-  <title>Cron Sentinel</title>
+    <!-- Fontfaces CSS-->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
 
-  <!-- Custom fonts for this template-->
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'vendor/fontawesome-free/css/google_fonts_css.css' %}" rel="stylesheet" type="text/css">
+    <!-- Bootstrap CSS-->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
 
-  <!-- Custom styles for this template-->
-  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <!-- Vendor CSS-->
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/wow/animate.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/slick/slick.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
 
 </head>
 
-<body class="bg-gradient-primary">
-
-  <div class="container">
-
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-      <div class="col-xl-10 col-lg-12 col-md-9">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-          <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
-            <div class="row">
-              <div class="col-lg-8">
-                  <img src="{% static 'img/login_logo.png' %}" / >
-		</div>
-              <div class="col-lg-4">
-                <div class="p-5">
-                  <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
-                  </div>
-                  <form class="user" action="/login/" method="post">
-                    {% csrf_token %}
-                    {% if next %}
-                        <input type="hidden" name="next" value="{{ next }}"/>
-                    {% endif %}
-
-                    <div class="form-group">
-                    <input type="text" class="form-control form-control-user" name="username" aria-describedby="emailHelp" placeholder="账号">
+<body class="animsition">
+    <div class="page-wrapper">
+        <div class="page-content--bge5">
+            <div class="container">
+                <div class="login-wrap">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="#">
+                                <img src="{% static 'images/icon/logo.png' %}" alt="CoolAdmin">
+                            </a>
+                        </div>
+                        <div class="login-form">
+                            <form action="/login/" method="post">
+                                {% csrf_token %}
+                                {% if next %}
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                {% endif %}
+                                <div class="form-group">
+                                    <label>用户名</label>
+                                    <input class="au-input au-input--full" type="text" name="username" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>密 码</label>
+                                    <input class="au-input au-input--full" type="password" name="password" placeholder="">
+                                </div>
+                                <div class="login-checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember">记住我
+                                    </label>
+                                    <label>
+                                        
+                                    </label>
+                                </div>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">登陆</button>
+                                <div class="social-login-content">
+                                  
+                                </div>
+                            </form>
+                           
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="password"  placeholder="密码">
-                    </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                      </div>
-                    </div>
-                    <button class="btn btn-primary btn-user btn-block" class="submit">
-                      登陆
-                    </button>
-                    <hr>
-                  </form>
-                  <hr>
-                  <div class="text-center">
-                  </div>
-                  <div class="text-center">
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-
-      </div>
 
     </div>
 
-  </div>
+    <!-- Jquery JS-->
+    <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+    <!-- Bootstrap JS-->
+    <script src="{% static 'vendor/bootstrap-4.1/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
+    <!-- Vendor JS       -->
+    <script src="{% static 'vendor/slick/slick.min.js' %}">
+    </script>
+    <script src="{% static 'vendor/wow/wow.min.js' %}"></script>
+    <script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap-progressbar/bootstrap-progressbar.min.js' %}">
+    </script>
+    <script src="{% static 'vendor/counter-up/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'vendor/counter-up/jquery.counterup.min.js' %}">
+    </script>
+    <script src="{% static 'vendor/circle-progress/circle-progress.min.js' %}"></script>
+    <script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'vendor/chartjs/Chart.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
 
-  <!-- Bootstrap core JavaScript-->
-
-  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-
-  <!-- Page level plugins -->
-
+    <!-- Main JS-->
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 
 </html>
+<!-- end document-->
