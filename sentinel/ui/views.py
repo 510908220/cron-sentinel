@@ -69,3 +69,13 @@ class ServiceView(TemplateView):
         context['title'] = "service"
         context['token'] = get_user_token(self.request.user)
         return context
+
+
+class PingView(TemplateView):
+    template_name = "service/ping.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PingView, self).get_context_data(**kwargs)
+        context['title'] = "ping"
+        context['token'] = get_user_token(self.request.user)
+        return context

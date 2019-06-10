@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <!-- DATA TABLE -->
+        <h3 class="title-5 m-b-35"></h3>
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+                <div class="rs-select2--light rs-select2--md">
+                    <select class="js-select2" name="property">
+                        <option selected="selected">All Properties</option>
+                        <option value="">Option 1</option>
+                        <option value="">Option 2</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <div class="rs-select2--light rs-select2--sm">
+                    <select class="js-select2" name="time">
+                        <option selected="selected">Today</option>
+                        <option value="">3 Days</option>
+                        <option value="">1 Week</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <button class="au-btn-filter">
+                    <i class="zmdi zmdi-filter-list"></i>filters</button>
+            </div>
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                    <i class="zmdi zmdi-plus"></i>导出</button>
+            </div>
+        </div>
+
+        <!-- END DATA TABLE -->
+    </div>
+</div>
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <!-- DATA TABLE-->
+        <div class="table-responsive m-b-40">
+            <table class="table table-borderless table-data3">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>Host</th>
+                        <th>Service</th>
+                        <th>Value</th>
+                        <th>UA</th>
+                    </tr>
+                </thead>
+                <tbody id='pings'>
+                  
+                </tbody>
+            </table>
+        </div>
+        <!-- END DATA TABLE-->
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %} {% block userscript %}
+<script>
+    "use strict";
+    $(function () {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}',
+                "Authorization": "Token {{token}}"
+            }
+        });
+        var API_PING_URL = "/api/pings/"
+
+        function update_pings() {
+            $.ajax({
+                url: API_PING_URL,
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    update_pingss(data);
+                },
+                error: function (xhr, textStatus) {
+                    console.log("update_pings error:" + xhr.responseText)
+                }
+            })
+        }
+
+        function update_pingss(data) {
+            $("#services").empty();
+            data.forEach(function (element) {
+                let tr = `
+                    <tr><td>${element['time']}</td>
+                            <td>${element['host']}</td>
+                            <td>${element['service_unique_id']}</td>
+                            <td class="process">${element['value']}</td>
+                            <td>${element['ua']}</td>
+                            </tr>
+                `
+                console.log(tr)
+                $("#pings").append(tr)
+            });
+
+
+        }
+        update_pings();
+    });
+</script>
+{% endblock %}
