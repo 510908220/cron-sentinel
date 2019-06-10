@@ -82,7 +82,9 @@ CREATE DATABASE sentinel  CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
 
+## 消息队列
 
+https://github.com/coleifer/huey
 
 ## 通知
 

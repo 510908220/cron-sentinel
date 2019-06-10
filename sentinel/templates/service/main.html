@@ -1,133 +1,71 @@
 {% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}
 <div class="row">
-  <div class="col-md-12">
-      <!-- DATA TABLE -->
-      <h3 class="title-5 m-b-35"></h3>
-      <div class="table-data__tool">
-          <div class="table-data__tool-left">
-              <div class="rs-select2--light rs-select2--md">
-                  <select class="js-select2" name="property">
-                      <option selected="selected">All Properties</option>
-                      <option value="">Option 1</option>
-                      <option value="">Option 2</option>
-                  </select>
-                  <div class="dropDownSelect2"></div>
-              </div>
-              <div class="rs-select2--light rs-select2--sm">
-                  <select class="js-select2" name="time">
-                      <option selected="selected">Today</option>
-                      <option value="">3 Days</option>
-                      <option value="">1 Week</option>
-                  </select>
-                  <div class="dropDownSelect2"></div>
-              </div>
-              <button class="au-btn-filter">
-                  <i class="zmdi zmdi-filter-list"></i>filters</button>
-          </div>
-          <div class="table-data__tool-right">
-              <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                  <i class="zmdi zmdi-plus"></i>新增</button>
-              <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                  <select class="js-select2" name="type">
-                      <option selected="selected">Export</option>
-                      <option value="">Option 1</option>
-                      <option value="">Option 2</option>
-                  </select>
-                  <div class="dropDownSelect2"></div>
-              </div>
-          </div>
-      </div>
+    <div class="col-md-12">
+        <!-- DATA TABLE -->
+        <h3 class="title-5 m-b-35"></h3>
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+                <div class="rs-select2--light rs-select2--md">
+                    <select class="js-select2" name="property">
+                        <option selected="selected">All Properties</option>
+                        <option value="">Option 1</option>
+                        <option value="">Option 2</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <div class="rs-select2--light rs-select2--sm">
+                    <select class="js-select2" name="time">
+                        <option selected="selected">Today</option>
+                        <option value="">3 Days</option>
+                        <option value="">1 Week</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <button class="au-btn-filter">
+                    <i class="zmdi zmdi-filter-list"></i>filters</button>
+            </div>
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                    <i class="zmdi zmdi-plus"></i>新增</button>
+                <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                    <select class="js-select2" name="type">
+                        <option selected="selected">Export</option>
+                        <option value="">Option 1</option>
+                        <option value="">Option 2</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+            </div>
+        </div>
 
-      <!-- END DATA TABLE -->
-  </div>
+        <!-- END DATA TABLE -->
+    </div>
 </div>
 <div class="row m-t-30">
-  <div class="col-md-12">
-      <!-- DATA TABLE-->
-      <div class="table-responsive m-b-40">
-          <table class="table table-borderless table-data3">
-              <thead>
-                  <tr>
-                      <th>状态</th>
-                      <th>名称</th>
-                      <th>调度</th>
-                      <th>最新记录</th>
-                      <th>通知方式</th>
-                      <th>标签</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>2018-09-29 05:57</td>
-                      <td>Mobile</td>
-                      <td>iPhone X 64Gb Grey</td>
-                      <td class="process">Processed</td>
-                      <td>$999.00</td>
-                      <td>$999.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-28 01:22</td>
-                      <td>Mobile</td>
-                      <td>Samsung S8 Black</td>
-                      <td class="process">Processed</td>
-                      <td>$756.00</td>
-                      <td>$756.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-27 02:12</td>
-                      <td>Game</td>
-                      <td>Game Console Controller</td>
-                      <td class="denied">Denied</td>
-                      <td>$22.00</td>
-                      <td>$756.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-26 23:06</td>
-                      <td>Mobile</td>
-                      <td>iPhone X 256Gb Black</td>
-                      <td class="denied">Denied</td>
-                      <td>$1199.00</td>
-                      <td>$756.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-25 19:03</td>
-                      <td>Accessories</td>
-                      <td>USB 3.0 Cable</td>
-                      <td class="process">Processed</td>
-                      <td>$10.00</td>
-                      <td>$756.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-29 05:57</td>
-                      <td>Accesories</td>
-                      <td>Smartwatch 4.0 LTE Wifi</td>
-                      <td class="denied">Denied</td>
-                      <td>$199.00</td>
-                      <td>$756.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-24 19:10</td>
-                      <td>Camera</td>
-                      <td>Camera C430W 4k</td>
-                      <td class="process">Processed</td>
-                      <td>$699.00</td>
-                      <td>$756.00</td>
-                  </tr>
-                  <tr>
-                      <td>2018-09-22 00:43</td>
-                      <td>Computer</td>
-                      <td>Macbook Pro Retina 2017</td>
-                      <td class="process">Processed</td>
-                      <td>$10.00</td>
-                      <td>$756.00</td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
-      <!-- END DATA TABLE-->
-  </div>
+    <div class="col-md-12">
+        <!-- DATA TABLE-->
+        <div class="table-responsive m-b-40">
+            <table class="table table-borderless table-data3">
+                <thead>
+                    <tr>
+                        <th>状态</th>
+                        <th>名称</th>
+                        <th>调度</th>
+                        <th>最新记录</th>
+                        <th>通知方式</th>
+                        <th>标签</th>
+                        <th>更多</th>
+                    </tr>
+                </thead>
+                <tbody id='services'>
+                  
+                </tbody>
+            </table>
+        </div>
+        <!-- END DATA TABLE-->
+    </div>
 </div>
- 
+
 
 
 
@@ -136,87 +74,54 @@
 {% endblock %} {% block userscript %}
 <script>
     "use strict";
-    $(function() {
+    $(function () {
         $.ajaxSetup({
             headers: {
-                "X-CSRFToken": '{{ csrf_token }}'
+                "X-CSRFToken": '{{ csrf_token }}',
+                "Authorization": "Token {{token}}"
             }
         });
-        var API_STATISTICS_URL = "/api/statistics/"
+        var API_SERVICE_URL = "/api/services/"
 
-        function update_dashboard() {
+        function update_service() {
             $.ajax({
-                url: API_STATISTICS_URL,
+                url: API_SERVICE_URL,
                 type: 'GET',
                 async: true,
                 dataType: 'json',
-                success: function(data) {
-                    $("#http-count").html(data.http_count);
-                    $("#tcp-count").html(data.tcp_count);
-                    $("#ping-count").html(data.ping_count);
-
-                    show_frequency(data.frequency_dict);
+                success: function (data) {
+                    update_services(data);
                 },
-                error: function(xhr, textStatus) {
-                    console.log("update_dashboard error:" + xhr.responseText)
+                error: function (xhr, textStatus) {
+                    console.log("update_service error:" + xhr.responseText)
                 }
             })
         }
 
-        function show_frequency(data) {
+        function update_services(data) {
+            $("#services").empty();
+            data.forEach(function (element) {
+                let tag_str = '';
+                element['tags'].forEach(function (tag) {
+                    tag_str += ` ${tag['name']}`
+                });
+                let tr = `
+                    <tr><td>${element['status']}</td>
+                            <td>${element['name']}</td>
+                            <td>${element['schedule']}</td>
+                            <td class="process">${element['status']}</td>
+                            <td>${element['status']}</td>
+                            <td>${tag_str}</td>
+                            <td>${element['id']}</td>
+                            </tr>
+                `
+                console.log(tr)
+                $("#services").append(tr)
+            });
 
-            var areaChartData = {
-                    labels: Object.keys(data),
-                    datasets: [{
-                        label: 'Electronics',
-                        fillColor: 'rgba(210, 214, 222, 1)',
-                        strokeColor: 'rgba(210, 214, 222, 1)',
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: Object.values(data)
-                    }]
-                }
-                //-------------
-                //- BAR CHART -
-                //-------------
-            var barChartCanvas = $('#barChart').get(0).getContext('2d')
-            var barChart = new Chart(barChartCanvas)
-            var barChartData = areaChartData
-               {% verbatim %} 
-            var barChartOptions = {
-                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-                scaleBeginAtZero: true,
-                //Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines: true,
-                //String - Colour of the grid lines
-                scaleGridLineColor: 'rgba(0,0,0,.05)',
-                //Number - Width of the grid lines
-                scaleGridLineWidth: 1,
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines: true,
-                //Boolean - If there is a stroke on each bar
-                barShowStroke: true,
-                //Number - Pixel width of the bar stroke
-                barStrokeWidth: 2,
-                //Number - Spacing between each of the X value sets
-                barValueSpacing: 5,
-                //Number - Spacing between data sets within X values
-                barDatasetSpacing: 1,
-                //String - A legend template
-                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-                //Boolean - whether to make the chart responsive
-                responsive: true,
-                maintainAspectRatio: true
-            }
-            {% endverbatim %}
-            barChartOptions.datasetFill = false
-            barChart.Bar(barChartData, barChartOptions)
+
         }
-        //update_dashboard();
+        update_service();
     });
 </script>
 {% endblock %}

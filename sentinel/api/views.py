@@ -134,6 +134,14 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         return self.queryset.all()
 
+    def list(self, request):
+        services = []
+        for service in self.get_queryset():
+            service_dict = ServiceSerializer(service).data
+            service_dict['schedule'] = '{} {}'.format(service_dict['tp'], service_dict['value'])
+            services.append(service_dict)
+        return Response(services)
+
     def create(self, request):
         params = self.request.data
         tags = params.pop('tags', '')
