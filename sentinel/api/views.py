@@ -72,13 +72,17 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
 
     def list(self, request):
         service_unique_id = request.query_params.get('service_unique_id')
-
+        params = {
+            'username': self.request.user.username
+        }
+        if service_unique_id:
+            params.update({
+                'service_unique_id': service_unique_id
+            })
         results = []
         index = 1
         with InfluxDBAPI() as f:
-            pings = f.get_pings({
-                'service_unique_id': service_unique_id
-            })
+            pings = f.get_pings(params)
         for ping in pings:
             results.append(ping)
             index += 1
@@ -102,6 +106,7 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
             {
                 "measurement": "pings",
                 "tags": {
+                    "username": self.request.user.username,
                     "host": remote_addr,
                     "service_unique_id": service_unique_id,
                     "ua": headers.get("HTTP_USER_AGENT", ""),
@@ -138,7 +143,8 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
         services = []
         for service in self.get_queryset():
             service_dict = ServiceSerializer(service).data
-            service_dict['schedule'] = '{} {}'.format(service_dict['tp'], service_dict['value'])
+            service_dict['schedule'] = '{} {}'.format(
+                service_dict['tp'], service_dict['value'])
             services.append(service_dict)
         return Response(services)
 
