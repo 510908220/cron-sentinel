@@ -16,6 +16,20 @@ from .serializers import ServiceSerializer, TagSerializer
 logger = logging.getLogger('api')
 
 
+def get_ping_points(params, num=10):
+    results = []
+    index = 1
+
+    with InfluxDBAPI() as f:
+        pings = f.get_pings(params)
+    for ping in pings:
+        results.append(ping)
+        index += 1
+        if index > num:
+            break
+    return results
+
+
 class DefaultsMixin(object):
     authentication_classes = (
         authentication.BasicAuthentication,
@@ -64,37 +78,25 @@ class TagViewSet(DefaultsMixin, viewsets.ModelViewSet):
         return self.queryset.all()
 
 
-class PingViewSet(DefaultsMixin, viewsets.ViewSet):
-
+class PingViewSet(viewsets.ViewSet):
     def list(self, request):
-        service_unique_id = request.query_params.get('service_unique_id')
+        unique_id = request.query_params.get('unique_id')
+
+        get_object_or_404(Service, unique_id=unique_id)
         params = {
-            'username': self.request.user.username
+            'unique_id': unique_id
         }
-        if service_unique_id:
-            params.update({
-                'service_unique_id': service_unique_id
-            })
-        results = []
-        index = 1
-        with InfluxDBAPI() as f:
-            pings = f.get_pings(params)
-        for ping in pings:
-            results.append(ping)
-            index += 1
-            if index > 10:
-                break
+        results = get_ping_points(params, 10)
 
         return Response(results)
 
-    def create(self, request):
-        service_unique_id = request.data.get('service_unique_id')
-        value = request.data.get('value')
+    def retrieve(self, request, pk=None):
+        unique_id = pk
+        value = request.query_params.get('value', '')
+        if not value:
+            value = 'cola'
 
-        service_obj = get_object_or_404(Service, {
-            'unique_id': service_unique_id,
-            'assigned': request.user
-        })
+        service_obj = get_object_or_404(Service, unique_id=unique_id)
 
         headers = request.META
         remote_addr = headers.get(
@@ -105,19 +107,17 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
             {
                 "measurement": "pings",
                 "tags": {
-                    "username": self.request.user.username,
                     "host": remote_addr,
-                    "service_unique_id": service_unique_id,
-                    "ua": headers.get("HTTP_USER_AGENT", ""),
+                    "unique_id": unique_id
 
                 },
                 "time": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
                 "fields": {
-                    "value": value
+                    "value": value,
+                    "ua": headers.get("HTTP_USER_AGENT", "")
                 }
             }
         ]
-
         status = True
         with InfluxDBAPI() as f:
             status = f.write_pings(json_body)
@@ -144,6 +144,18 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
             service_dict = ServiceSerializer(service).data
             service_dict['schedule'] = '{} {}'.format(
                 service_dict['tp'], service_dict['value'])
+
+            results = get_ping_points({
+                'unique_id': str(service.unique_id)
+            }, 1)
+            # 通知方式
+            notify = []
+            for notify_tp in ['email', 'wechat', 'sms']:
+                if service_dict[notify_tp]:
+                    notify.append(notify_tp)
+
+            service_dict['notify'] = ' '.join(notify)
+            service_dict['last_ping_time'] = results[0]['time'] if results else ''
             services.append(service_dict)
         return Response(services)
 

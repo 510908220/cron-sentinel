@@ -21,7 +21,7 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Service
         fields = ('id', 'name', 'description' ,'status', 'tp', 'last_check_timestamp',
                   'value', 'grace', 'unique_id', 'alert_count', 'assigned',
-                  'tags', 'alert_interval_min', 'last_alert_timestamp',
+                  'tags', 'alert_interval_min', 'last_alert_timestamp','email', 'wechat', 'sms',
                   'created', 'updated')
     assigned = serializers.SlugRelatedField(
         slug_field=User.USERNAME_FIELD,

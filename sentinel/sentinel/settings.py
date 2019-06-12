@@ -143,7 +143,7 @@ INFLUXDB = {
     'database': 'sentinel'
 }
 
-
+SERVER_IP = '47.100.23.235'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 

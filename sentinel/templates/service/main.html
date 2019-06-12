@@ -107,11 +107,20 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">通知</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" placeholder="email">
+                            <input type="text" class="form-control" id="wechat" placeholder="wechat">
+                            <input type="text" class="form-control" id="sms" placeholder="sms">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="name" placeholder="">
                         </div>
                     </div>
+
                     <div class="form-group ">
                         <label for="inputEmail3" class="col-sm-2 control-label">description</label>
                         <div class="col-sm-10">
@@ -158,6 +167,11 @@
             $("#value").val('')
             $("#grace").val('')
             $("#alert_interval_min").val('')
+
+            $("#email").val('')
+            $("#wechat").val('')
+            $("#sms").val('')
+
             $("#name").val('')
             $("#description").val('')
         });
@@ -168,6 +182,11 @@
                 "value": $("#value").val(),
                 "grace": $("#grace").val(),
                 "alert_interval_min": $("#alert_interval_min").val(),
+
+                "email": $("#email").val(),
+                "wechat": $("#wechat").val(),
+                "sms": $("#sms").val(),
+
                 "name": $("#name").val(),
                 "description": $("#description").val()
             }
@@ -221,12 +240,45 @@
                 }
             })
         }
+        function pause_service(unique_id, stop_name) {
+
+            let params = {}
+            if (stop_name === "暂停") {
+                params = {
+                    "status": "paused"
+                }
+            } else {
+                params = {
+                    "status": "nodata"
+                }
+            }
+            $.ajax({
+                url: API_SERVICE_URL + unique_id + "/",
+                type: 'PUT',
+                async: true,
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(params),
+                success: function (data) {
+                    update_service();
+                },
+                error: function (xhr) {
+                    console.log("pause service:" + xhr.responseText)
+                }
+            })
+        }
         function init_service_ope() {
             $(".del-service-btn").each(function (index) {
                 $(this).on("click", function () {
                     delete_service($(this).attr('value'));
                 });
             });
+            $(".pause-service-btn").each(function (index) {
+                $(this).on("click", function () {
+                    pause_service($(this).attr('value'), $(this).text());
+                });
+            });
+
             $(".modify-service-btn").each(function (index) {
                 $(this).on("click", function () {
                     var unique_id = $(this).attr('value');
@@ -235,9 +287,14 @@
                     $("#value").val(service_cache[unique_id].value)
                     $("#grace").val(service_cache[unique_id].grace)
                     $("#alert_interval_min").val(service_cache[unique_id].alert_interval_min)
+
+                    $("#email").val(service_cache[unique_id].email)
+                    $("#wechat").val(service_cache[unique_id].wechat)
+                    $("#sms").val(service_cache[unique_id].sms)
+
                     $("#name").val(service_cache[unique_id].name)
                     $("#description").val(service_cache[unique_id].description)
-                    
+
                     $("#service-modal .unique-id").val(unique_id);
 
                     $("#service-modal .modal-title").html("修改" + unique_id);
@@ -272,17 +329,33 @@
                 element['tags'].forEach(function (tag) {
                     tag_str += ` ${tag['name']}`
                 });
+                let member = {
+                    "ok": "member",
+                    "alert": "admin",
+                    "paused": "user",
+                    "nodata": "user",
+                    "error": "admin",
+                }[element['status']]
+                
+                
+                let stop_name = ""
+                if ( element['status'] === "paused") {
+                    stop_name = "恢复"
+                } else {
+                    stop_name = "暂停"
+                }
                 let tr = `
-                    <tr><td>${element['status']}</td>
-                            <td><a href='/service/${element['id']}'>${element['name']}</a></td>
-                            <td>${element['schedule']}</td>
-                            <td class="process">${element['status']}</td>
-                            <td>${element['status']}</td>
-                            <td>${tag_str}</td>
-                            <td>
-                            <button type="button" class="btn  btn-warning btn-xs modify-service-btn" value="${element['unique_id']}">修改</button>
-                            <button type="button" class="btn  btn-danger btn-xs del-service-btn" value="${element['unique_id']}">删除</button>
-                            </td>
+                    <tr><td> <span class="role ${member}">${element['status']}</span> </td>
+                        <td><a href='/service/${element['unique_id']}'>${element['name']}</a></td>
+                        <td>${element['schedule']}</td>
+                        <td class="process">${element['last_ping_time']}</td>
+                        <td>${element['notify']}</td>
+                        <td>${tag_str}</td>
+                        <td>
+                        <button type="button" class="btn  btn-info btn-xs modify-service-btn" value="${element['unique_id']}">修改</button>
+                        <button type="button" class="btn  btn-danger btn-xs del-service-btn" value="${element['unique_id']}">删除</button>
+                        <button type="button" class="btn  btn-warning btn-xs pause-service-btn" value="${element['unique_id']}">${stop_name}</button>
+                        </td>
                             </tr>
                 `
                 console.log(tr)

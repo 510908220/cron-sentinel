@@ -14,6 +14,8 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.contrib.auth import logout
 from rest_framework.authtoken.models import Token
+from api.models import Service
+from django.shortcuts import get_object_or_404
 
 
 def get_user_token(user):
@@ -55,8 +57,18 @@ class ServiceItemView(TemplateView):
     template_name = "service/item.html"
 
     def get_context_data(self, **kwargs):
+        service_obj = get_object_or_404(Service, unique_id=kwargs['id'])
         context = super(ServiceItemView, self).get_context_data(**kwargs)
-        context['title'] = "xxxx service"
+        context['title'] = service_obj.name
+        context['description'] = service_obj.description
+        context['unique_id'] = kwargs['id']
+        # https://cronhub.io/ping/9cb771e0-5f5e-11e9-877e-b9a45e5b7fc2
+
+        context['url'] = 'http://{ip}/api/pings/{unique_id}/?value='.format(
+            ip=settings.SERVER_IP,
+            unique_id=kwargs['id']
+        )
+
         context['token'] = get_user_token(self.request.user)
         return context
 

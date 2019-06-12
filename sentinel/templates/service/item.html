@@ -30,7 +30,7 @@
                                     <!-- DATA TABLE -->
                                     <div class="au-card m-b-30">
                                         <div class="au-card-inner">
-                                            <h3 class="title-2 m-b-40">Team Commits</h3>
+                                            <h3 class="title-2 m-b-40">Past runs</h3>
                                             <canvas id="team-chart"></canvas>
                                         </div>
                                     </div>
@@ -67,52 +67,54 @@
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4>Integrate this monitor with your job by making an HTTP request every time your job runs.</h4>
+                                            <h4>Integrate this monitor with your job by making an HTTP request every
+                                                time your job runs.</h4>
                                         </div>
                                         <div class="card-body">
                                             <div class="default-tab">
                                                 <nav>
                                                     <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-                                                        <a class="nav-item nav-link active" id="nav-python-tab" data-toggle="tab" href="#nav-python" role="tab" aria-controls="nav-home"
-                                                         aria-selected="true">Python</a>
-                                                        <a class="nav-item nav-link" id="nav-bash-tab" data-toggle="tab" href="#nav-bash" role="tab" aria-controls="nav-profile"
-                                                         aria-selected="false">Bash</a>
-                                                        <a class="nav-item nav-link" id="nav-crontab-tab" data-toggle="tab" href="#nav-crontab" role="tab" aria-controls="nav-contact"
-                                                         aria-selected="false">Crontab</a>
+                                                        <a class="nav-item nav-link active" id="nav-python-tab"
+                                                            data-toggle="tab" href="#nav-python" role="tab"
+                                                            aria-controls="nav-home" aria-selected="true">Python</a>
+                                                        <a class="nav-item nav-link" id="nav-bash-tab" data-toggle="tab"
+                                                            href="#nav-bash" role="tab" aria-controls="nav-profile"
+                                                            aria-selected="false">Bash</a>
+                                                        <a class="nav-item nav-link" id="nav-crontab-tab"
+                                                            data-toggle="tab" href="#nav-crontab" role="tab"
+                                                            aria-controls="nav-contact"
+                                                            aria-selected="false">Crontab</a>
                                                     </div>
                                                 </nav>
                                                 <div class="tab-content pl-3 pt-2" id="nav-tabContent">
-                                                    <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                                                    <div class="tab-pane fade show active" id="nav-python"
+                                                        role="tabpanel" aria-labelledby="nav-python-tab">
                                                         <code>
                                                                 import requests
-                                                                requests.get("https://cronhub.io/ping/9cb771e0-5f5e-11e9-877e-b9a45e5b7fc2")
+                                                                requests.get("{{url}}")
                                                         </code>
                                                     </div>
-                                                    <div class="tab-pane fade" id="nav-bash" role="tabpanel" aria-labelledby="nav-bash-tab">
-                                                        <code>curl --retry 2 https://cronhub.io/ping/9cb771e0-5f5e-11e9-877e-b9a45e5b7fc2</code>
+                                                    <div class="tab-pane fade" id="nav-bash" role="tabpanel"
+                                                        aria-labelledby="nav-bash-tab">
+                                                        <code>curl --retry 2 {{url}}</code>
                                                     </div>
-                                                    <div class="tab-pane fade" id="nav-crontab" role="tabpanel" aria-labelledby="nav-crontab-tab">
-                                                        <code>0 0 * * * your_script.sh && curl -fsS --retry 3 https://cronhub.io/ping/9cb771e0-5f5e-11e9-877e-b9a45e5b7fc2 > /dev/null</code>
+                                                    <div class="tab-pane fade" id="nav-crontab" role="tabpanel"
+                                                        aria-labelledby="nav-crontab-tab">
+                                                        <code>0 0 * * * your_script.sh && curl -fsS --retry 3 {{url}} > /dev/null</code>
                                                     </div>
                                                 </div>
-    
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- /# column -->
-                            
+
                             </div>
                         </div>
                         <div class="tab-pane fade" id="custom-nav-contact" role="tabpanel"
                             aria-labelledby="custom-nav-contact-tab">
-                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown
-                                aliqua, retro synth
-                                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.
-                                Reprehenderit butcher retro keffiyeh
-                                dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat
-                                salvia cillum iphone.
-                                Seitan alip s cardigan american apparel, butcher voluptate nisi .</p>
+                            <p>{{description}}.</p>
                         </div>
                     </div>
 
@@ -137,47 +139,43 @@
                 "Authorization": "Token {{token}}"
             }
         });
-        var API_SERVICE_URL = "/api/services/"
+        var API_PING_URL = "/api/pings/?unique_id={{unique_id}}"
 
-        function update_service() {
+        function update_ping() {
             $.ajax({
-                url: API_SERVICE_URL,
+                url: API_PING_URL,
                 type: 'GET',
                 async: true,
                 dataType: 'json',
                 success: function (data) {
-                    update_services(data);
+                    update_ping_ui(data);
                 },
                 error: function (xhr, textStatus) {
-                    console.log("update_service error:" + xhr.responseText)
+                    console.log("update_ping error:" + xhr.responseText)
                 }
             })
         }
 
-        function update_services(data) {
-            $("#services").empty();
+        function update_ping_ui(data) {
+            $("#pings").empty();
             data.forEach(function (element) {
-                let tag_str = '';
-                element['tags'].forEach(function (tag) {
-                    tag_str += ` ${tag['name']}`
-                });
+
                 let tr = `
-                    <tr><td>${element['status']}</td>
-                            <td><a href='/service/${element['id']}'>${element['name']}</a></td>
-                            <td>${element['schedule']}</td>
-                            <td class="process">${element['status']}</td>
-                            <td>${element['status']}</td>
-                            <td>${tag_str}</td>
-                            <td>${element['id']}</td>
-                            </tr>
+                    <tr>
+                    <td>${element['time']}</td>
+                    <td>${element['host']}</td>
+                    <td class="process">${element['unique_id']}</td>
+                    <td>${element['value']}</td>
+                    <td>${element['ua']}</td>
+                    </tr>
                 `
                 console.log(tr)
-                $("#services").append(tr)
+                $("#pings").append(tr)
             });
 
 
         }
-        update_service();
+        update_ping();
     });
 </script>
 {% endblock %}
