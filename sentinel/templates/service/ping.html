@@ -6,23 +6,22 @@
         <div class="table-data__tool">
             <div class="table-data__tool-left">
                 <div class="rs-select2--light rs-select2--md">
-                    <select class="js-select2" name="property">
-                        <option selected="selected">All Properties</option>
-                        <option value="">Option 1</option>
-                        <option value="">Option 2</option>
+                    <label for="inputPassword3" class="col-sm-6 control-label">服务</label>
+                    <select class="js-select2" name="property" id='service-name'>
                     </select>
                     <div class="dropDownSelect2"></div>
                 </div>
-                <div class="rs-select2--light rs-select2--sm">
-                    <select class="js-select2" name="time">
-                        <option selected="selected">Today</option>
-                        <option value="">3 Days</option>
-                        <option value="">1 Week</option>
-                    </select>
-                    <div class="dropDownSelect2"></div>
-                </div>
-                <button class="au-btn-filter">
-                    <i class="zmdi zmdi-filter-list"></i>filters</button>
+                <div class="rs-select2--light rs-select2--md">
+                        <label for="inputPassword3" class="col-sm-6 control-label">数量</label>
+                        <select class="js-select2" name="property" id='service-count'>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                <button class="au-btn-filter" id='ping-query-btn'>
+                    <i class="zmdi zmdi-filter-list"></i>查询</button>
             </div>
             <div class="table-data__tool-right">
                 <button class="au-btn au-btn-icon au-btn--green au-btn--small">
@@ -48,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody id='pings'>
-                  
+
                 </tbody>
             </table>
         </div>
@@ -71,16 +70,41 @@
                 "Authorization": "Token {{token}}"
             }
         });
-        var API_PING_URL = "/api/pings/"
+        var API_PING_URL = "/api/pings/?unique_id="
+        var API_SERVICE_URL = "/api/services/"
 
-        function update_pings() {
+        function update_service_names(data) {
+
+            data.forEach(function (element) {
+                $("#service-name").empty()
+                let tr = `<option value="${element.unique_id}">${element.name}</option>`
+                console.log(tr)
+                $("#service-name").append(tr)
+            });
+        }
+        function init() {
             $.ajax({
-                url: API_PING_URL,
+                url: API_SERVICE_URL,
                 type: 'GET',
                 async: true,
                 dataType: 'json',
                 success: function (data) {
-                    update_pingss(data);
+                    update_service_names(data)
+                },
+                error: function (xhr, textStatus) {
+                    console.log("init error:" + xhr.responseText)
+                }
+            })
+        }
+
+        function update_pings(unique_id,count) {
+            $.ajax({
+                url: API_PING_URL + unique_id + "&count=" + count,
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    update_pings_ui(data);
                 },
                 error: function (xhr, textStatus) {
                     console.log("update_pings error:" + xhr.responseText)
@@ -88,13 +112,13 @@
             })
         }
 
-        function update_pingss(data) {
+        function update_pings_ui(data) {
             $("#services").empty();
             data.forEach(function (element) {
                 let tr = `
                     <tr><td>${element['time']}</td>
                             <td>${element['host']}</td>
-                            <td>${element['service_unique_id']}</td>
+                            <td>${element['unique_id']}</td>
                             <td class="process">${element['value']}</td>
                             <td>${element['ua']}</td>
                             </tr>
@@ -105,7 +129,16 @@
 
 
         }
-        update_pings();
+        $("#ping-query-btn").click(function () {
+            let unique_id = $("#service-name").val()
+            let count = $("#service-count").val()
+            console.log('query unique is is:' + unique_id + ' count:' + count)
+            if (unique_id) {
+                update_pings(unique_id,count)
+            }
+
+        });
+        init();
     });
 </script>
 {% endblock %}

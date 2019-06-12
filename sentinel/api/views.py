@@ -81,12 +81,14 @@ class TagViewSet(DefaultsMixin, viewsets.ModelViewSet):
 class PingViewSet(viewsets.ViewSet):
     def list(self, request):
         unique_id = request.query_params.get('unique_id')
-
+        count = request.query_params.get('count')
+        if not count:
+            count = 10
         get_object_or_404(Service, unique_id=unique_id)
         params = {
             'unique_id': unique_id
         }
-        results = get_ping_points(params, 10)
+        results = get_ping_points(params, int(count))
 
         return Response(results)
 
