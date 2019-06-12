@@ -25,7 +25,7 @@
                     <i class="zmdi zmdi-filter-list"></i>filters</button>
             </div>
             <div class="table-data__tool-right">
-                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" id='add-service-btn'>
                     <i class="zmdi zmdi-plus"></i>新增</button>
                 <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                     <select class="js-select2" name="type">
@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody id='services'>
-                  
+
                 </tbody>
             </table>
         </div>
@@ -66,7 +66,71 @@
     </div>
 </div>
 
+<!-- modal medium -->
+<div class="modal fade" id="service-modal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">schedule</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="tp">
+                                <option value='every'>every</option>
+                                <option value='at'>at</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">value</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="value" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">grace</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="grace" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">alert_interval_min</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="alert_interval_min" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="inputEmail3" class="col-sm-2 control-label">description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control item" rows="2" placeholder="Enter ..."
+                                id="description"></textarea>
+                        </div>
+                    </div>
+                </form>
 
+            </div>
+            <div class="modal-footer">
+                <input class="col-sm-2 control-label unique-id" hidden></input>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id='add-service-save-btn'>Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal medium -->
 
 
 
@@ -82,7 +146,106 @@
             }
         });
         var API_SERVICE_URL = "/api/services/"
+        var service_cache = {
 
+        }
+        $("#add-service-btn").click(function () {
+            $('#service-modal').modal('show');
+            $("#service-modal .modal-title").html('new service');
+            $("#service-modal .unique-id").val('');
+
+            $("#tp").val('')
+            $("#value").val('')
+            $("#grace").val('')
+            $("#alert_interval_min").val('')
+            $("#name").val('')
+            $("#description").val('')
+        });
+
+        $("#add-service-save-btn").click(function () {
+            let service = {
+                "tp": $("#tp").val(),
+                "value": $("#value").val(),
+                "grace": $("#grace").val(),
+                "alert_interval_min": $("#alert_interval_min").val(),
+                "name": $("#name").val(),
+                "description": $("#description").val()
+            }
+            if (!$("#service-modal .unique-id").val()) {
+                $.ajax({
+                    url: API_SERVICE_URL,
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(service),
+                    success: function (data) {
+                        update_service();
+                    },
+                    error: function (xhr) {
+                        console.log("add service error:" + xhr.responseText);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: API_SERVICE_URL + $("#service-modal .unique-id").val() + '/',
+                    type: 'put',
+                    async: false,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(service),
+                    success: function (data) {
+                        update_service();
+                    },
+                    error: function (xhr) {
+                        console.log("modify service error:" + xhr.responseText);
+                    }
+                });
+            }
+
+
+            $('#service-modal').modal('hide');
+        });
+
+        function delete_service(unique_id) {
+            $.ajax({
+                url: API_SERVICE_URL + unique_id + "/",
+                type: 'DELETE',
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    update_service();
+                },
+                error: function (xhr) {
+                    console.log("delete service:" + xhr.responseText)
+                }
+            })
+        }
+        function init_service_ope() {
+            $(".del-service-btn").each(function (index) {
+                $(this).on("click", function () {
+                    delete_service($(this).attr('value'));
+                });
+            });
+            $(".modify-service-btn").each(function (index) {
+                $(this).on("click", function () {
+                    var unique_id = $(this).attr('value');
+
+                    $("#tp").val(service_cache[unique_id].tp)
+                    $("#value").val(service_cache[unique_id].value)
+                    $("#grace").val(service_cache[unique_id].grace)
+                    $("#alert_interval_min").val(service_cache[unique_id].alert_interval_min)
+                    $("#name").val(service_cache[unique_id].name)
+                    $("#description").val(service_cache[unique_id].description)
+                    
+                    $("#service-modal .unique-id").val(unique_id);
+
+                    $("#service-modal .modal-title").html("修改" + unique_id);
+                    $('#service-modal').modal('show');
+
+                });
+            });
+        }
         function update_service() {
             $.ajax({
                 url: API_SERVICE_URL,
@@ -90,7 +253,11 @@
                 async: true,
                 dataType: 'json',
                 success: function (data) {
-                    update_services(data);
+                    data.forEach(function (item) {
+                        service_cache[item.unique_id] = item
+                    });
+                    update_service_ui(data)
+                    init_service_ope()
                 },
                 error: function (xhr, textStatus) {
                     console.log("update_service error:" + xhr.responseText)
@@ -98,7 +265,7 @@
             })
         }
 
-        function update_services(data) {
+        function update_service_ui(data) {
             $("#services").empty();
             data.forEach(function (element) {
                 let tag_str = '';
@@ -107,12 +274,15 @@
                 });
                 let tr = `
                     <tr><td>${element['status']}</td>
-                            <td>${element['name']}</td>
+                            <td><a href='/service/${element['id']}'>${element['name']}</a></td>
                             <td>${element['schedule']}</td>
                             <td class="process">${element['status']}</td>
                             <td>${element['status']}</td>
                             <td>${tag_str}</td>
-                            <td>${element['id']}</td>
+                            <td>
+                            <button type="button" class="btn  btn-warning btn-xs modify-service-btn" value="${element['unique_id']}">修改</button>
+                            <button type="button" class="btn  btn-danger btn-xs del-service-btn" value="${element['unique_id']}">删除</button>
+                            </td>
                             </tr>
                 `
                 console.log(tr)
@@ -121,6 +291,7 @@
 
 
         }
+
         update_service();
     });
 </script>

@@ -45,6 +45,7 @@ class Service(BaseModel):
         settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, unique=True,
                             blank=False, null=False)
+    description = models.TextField(default="")
     status = models.CharField(
         choices=STATUS, default=STATUS[3][1], max_length=20)
     tp = models.CharField(choices=TYPES, default=TYPES[0][0], max_length=20)

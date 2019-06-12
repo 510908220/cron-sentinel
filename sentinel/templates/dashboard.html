@@ -1,78 +1,73 @@
 {% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}
 
-            <!-- STATISTIC-->
-            <section class="statistic statistic2">
-              <div class="container">
-                  <div class="row">
-                      <div class="col-md-6 col-lg-3">
-                          <div class="statistic__item statistic__item--green">
-                              <h2 class="number">10,368</h2>
-                              <span class="desc">服务数</span>
-                              <div class="icon">
-                                  <i class="zmdi zmdi-account-o"></i>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6 col-lg-3">
-                          <div class="statistic__item statistic__item--orange">
-                              <h2 class="number">388,688</h2>
-                              <span class="desc">正常</span>
-                              <div class="icon">
-                                  <i class="zmdi zmdi-shopping-cart"></i>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6 col-lg-3">
-                          <div class="statistic__item statistic__item--blue">
-                              <h2 class="number">1,086</h2>
-                              <span class="desc">异常</span>
-                              <div class="icon">
-                                  <i class="zmdi zmdi-calendar-note"></i>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6 col-lg-3">
-                          <div class="statistic__item statistic__item--red">
-                              <h2 class="number">$1,060,386</h2>
-                              <span class="desc">告警</span>
-                              <div class="icon">
-                                  <i class="zmdi zmdi-money"></i>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
-          <!-- END STATISTIC-->
-
-          <!-- STATISTIC CHART-->
-          <section class="statistic-chart">
-              <div class="container">
-                  <div class="row">
-                      <div class="col-md-12">
-                          <h3 class="title-5 m-b-35">statistics</h3>
-                      </div>
-                  </div>
-
-                  <div class="row">
-              
-                    <div class="col-lg-6">
-                        <div class="au-card m-b-30">
-                            <div class="au-card-inner">
-                                <h3 class="title-2 m-b-40">告警走势</h3>
-                                <canvas id="singelBarChart"></canvas>
-                            </div>
-                        </div>
+<!-- STATISTIC-->
+<section class="statistic statistic2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                <div class="statistic__item statistic__item--green">
+                    <h2 class="number">10,368</h2>
+                    <span class="desc">服务数</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-account-o"></i>
                     </div>
-                    
-                  </div>
-              </div>
-          </section>
-          <!-- END STATISTIC CHART-->
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="statistic__item statistic__item--orange">
+                    <h2 class="number">388,688</h2>
+                    <span class="desc">正常</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-shopping-cart"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="statistic__item statistic__item--blue">
+                    <h2 class="number">1,086</h2>
+                    <span class="desc">异常</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-calendar-note"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="statistic__item statistic__item--red">
+                    <h2 class="number">$1,060,386</h2>
+                    <span class="desc">告警</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-money"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END STATISTIC-->
+
+<!-- STATISTIC CHART-->
+<section class="statistic-chart">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="au-card m-b-30">
+                    <div class="au-card-inner">
+                        <h3 class="title-2 m-b-40">告警走势</h3>
+                        <canvas id="sales-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- END STATISTIC CHART-->
 {% endblock %} {% block userscript %}
 <script>
     "use strict";
-    $(function() {
+    $(function () {
         $.ajaxSetup({
             headers: {
                 "X-CSRFToken": '{{ csrf_token }}'
@@ -86,14 +81,14 @@
                 type: 'GET',
                 async: true,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     $("#http-count").html(data.http_count);
                     $("#tcp-count").html(data.tcp_count);
                     $("#ping-count").html(data.ping_count);
 
                     show_frequency(data.frequency_dict);
                 },
-                error: function(xhr, textStatus) {
+                error: function (xhr, textStatus) {
                     console.log("update_dashboard error:" + xhr.responseText)
                 }
             })
@@ -102,25 +97,25 @@
         function show_frequency(data) {
 
             var areaChartData = {
-                    labels: Object.keys(data),
-                    datasets: [{
-                        label: 'Electronics',
-                        fillColor: 'rgba(210, 214, 222, 1)',
-                        strokeColor: 'rgba(210, 214, 222, 1)',
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: Object.values(data)
-                    }]
-                }
-                //-------------
-                //- BAR CHART -
-                //-------------
+                labels: Object.keys(data),
+                datasets: [{
+                    label: 'Electronics',
+                    fillColor: 'rgba(210, 214, 222, 1)',
+                    strokeColor: 'rgba(210, 214, 222, 1)',
+                    pointColor: 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data: Object.values(data)
+                }]
+            }
+            //-------------
+            //- BAR CHART -
+            //-------------
             var barChartCanvas = $('#barChart').get(0).getContext('2d')
             var barChart = new Chart(barChartCanvas)
             var barChartData = areaChartData
-               {% verbatim %} 
+            {% verbatim %}
             var barChartOptions = {
                 //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
                 scaleBeginAtZero: true,

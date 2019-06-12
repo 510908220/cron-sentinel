@@ -19,7 +19,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
-        fields = ('id', 'name', 'status', 'tp', 'last_check_timestamp',
+        fields = ('id', 'name', 'description' ,'status', 'tp', 'last_check_timestamp',
                   'value', 'grace', 'unique_id', 'alert_count', 'assigned',
                   'tags', 'alert_interval_min', 'last_alert_timestamp',
                   'created', 'updated')

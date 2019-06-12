@@ -1,23 +1,19 @@
-from django.shortcuts import render
+import logging
 from datetime import datetime
-# Create your views here.
-from django.shortcuts import render
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 # Create your views here.
 import django_filters
-from rest_framework import (authentication,
-                            filters,
-                            permissions,
-                            viewsets)
-
-
-from .models import Tag, Service
-from .serializers import TagSerializer, ServiceSerializer
+from django.contrib.auth.models import User
+# Create your views here.
+from django.shortcuts import get_object_or_404, render
+from rest_framework import authentication, filters, permissions, viewsets
+from rest_framework.response import Response
 
 from .influxdb_api import InfluxDBAPI
-from django.contrib.auth.models import User
+from .models import Service, Tag
+from .serializers import ServiceSerializer, TagSerializer
+
+logger = logging.getLogger('api')
 
 
 class DefaultsMixin(object):
@@ -95,7 +91,10 @@ class PingViewSet(DefaultsMixin, viewsets.ViewSet):
         service_unique_id = request.data.get('service_unique_id')
         value = request.data.get('value')
 
-        service_obj = get_object_or_404(Service, unique_id=service_unique_id)
+        service_obj = get_object_or_404(Service, {
+            'unique_id': service_unique_id,
+            'assigned': request.user
+        })
 
         headers = request.META
         remote_addr = headers.get(
@@ -137,7 +136,7 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
     filter_fields = ('tags', 'status', 'tp')
 
     def get_queryset(self):
-        return self.queryset.all()
+        return self.queryset.filter(assigned=self.request.user)
 
     def list(self, request):
         services = []
@@ -150,6 +149,8 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     def create(self, request):
         params = self.request.data
+        logger.info('create <%s> %s', self.request.user.username, params)
+
         tags = params.pop('tags', '')
 
         params['assigned'] = request.user
@@ -164,19 +165,25 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
         return Response(ServiceSerializer(service).data)
 
+    def destroy(self, request, pk=None):
+        logger.info('delete <%s> %s', self.request.user.username, pk)
+        self.get_queryset().filter(unique_id=pk).delete()
+        return Response({'status': 'ok'})
+
     def update(self, request, pk=None):
         params = self.request.data
-
+        logger.info('update <%s> %s %s',
+                    self.request.user.username, pk, params)
         if 'tags' in params:
             tags = params.pop('tags')
-            Service.objects.filter(pk=pk).update(**params)
-            service = Service.objects.get(id=pk)
+            Service.objects.filter(unique_id=pk).update(**params)
+            service = Service.objects.get(unique_id=pk)
             service.tags.clear()
             for tag in tags:
                 tag_obj, _ = Tag.objects.get_or_create(name=tag)
                 service.tags.add(tag_obj)
         else:
-            Service.objects.filter(pk=pk).update(**params)
-            service = Service.objects.get(id=pk)
+            Service.objects.filter(unique_id=pk).update(**params)
+            service = Service.objects.get(unique_id=pk)
         service.save()  # 更新时间字段
         return Response(ServiceSerializer(service).data)
