@@ -46,3 +46,9 @@ class InfluxDBAPI(object):
         ping_points = rs.get_points(measurement='pings', tags=tags)
         for ping_point in ping_points:
             yield ping_point
+
+    def query_pings(self, sql):
+        rs = self.client.query(sql)
+        ping_points = rs.get_points(measurement='pings')
+        for ping_point in ping_points:
+            yield ping_point

@@ -90,8 +90,7 @@
                                                     <div class="tab-pane fade show active" id="nav-python"
                                                         role="tabpanel" aria-labelledby="nav-python-tab">
                                                         <code>
-                                                                import requests
-                                                                requests.get("{{url}}")
+                                                                import requests;requests.get("{{url}}")
                                                         </code>
                                                     </div>
                                                     <div class="tab-pane fade" id="nav-bash" role="tabpanel"
@@ -140,7 +139,11 @@
             }
         });
         var API_PING_URL = "/api/pings/?unique_id={{unique_id}}"
+        
+        var chart_labels = {{chart.labels | safe}}
+        var chart_data = {{chart.data|safe}}
 
+        console.log(chart_labels)
         function update_ping() {
             $.ajax({
                 url: API_PING_URL,
@@ -175,7 +178,99 @@
 
 
         }
+        function update_chart() {
+            try {
+
+                //Team chart
+                var ctx = document.getElementById("team-chart");
+                if (ctx) {
+                    ctx.height = 150;
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: chart_labels,
+                            type: 'line',
+                            defaultFontFamily: 'Poppins',
+                            datasets: [{
+                                data: chart_data,
+                                label: "Expense",
+                                backgroundColor: 'rgba(0,103,255,.15)',
+                                borderColor: 'rgba(0,103,255,0.5)',
+                                borderWidth: 3.5,
+                                pointStyle: 'circle',
+                                pointRadius: 5,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: 'rgba(0,103,255,0.5)',
+                            },]
+                        },
+                        options: {
+                            responsive: true,
+                            tooltips: {
+                                mode: 'index',
+                                titleFontSize: 12,
+                                titleFontColor: '#000',
+                                bodyFontColor: '#000',
+                                backgroundColor: '#fff',
+                                titleFontFamily: 'Poppins',
+                                bodyFontFamily: 'Poppins',
+                                cornerRadius: 3,
+                                intersect: false,
+                            },
+                            legend: {
+                                display: false,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    fontFamily: 'Poppins',
+                                },
+
+
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    scaleLabel: {
+                                        display: false,
+                                        labelString: 'Month'
+                                    },
+                                    ticks: {
+                                        fontFamily: "Poppins"
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Value',
+                                        fontFamily: "Poppins"
+                                    },
+                                    ticks: {
+                                        fontFamily: "Poppins"
+                                    }
+                                }]
+                            },
+                            title: {
+                                display: false,
+                            }
+                        }
+                    });
+                }
+
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
         update_ping();
+        update_chart()
     });
 </script>
 {% endblock %}

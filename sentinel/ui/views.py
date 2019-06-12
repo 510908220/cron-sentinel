@@ -16,6 +16,7 @@ from django.contrib.auth import logout
 from rest_framework.authtoken.models import Token
 from api.models import Service
 from django.shortcuts import get_object_or_404
+from api.statistics import get_service_run
 
 
 def get_user_token(user):
@@ -69,6 +70,8 @@ class ServiceItemView(TemplateView):
             unique_id=kwargs['id']
         )
 
+        context['chart'] = get_service_run(kwargs['id'])
+        print(context['chart'])
         context['token'] = get_user_token(self.request.user)
         return context
 
