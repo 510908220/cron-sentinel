@@ -84,6 +84,11 @@ CREATE DATABASE sentinel  CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 ## 消息队列
 
+#### redis安装
+```
+docker run --name  sentinel-redis -v  /opt/redis_data:/data  -d redis
+```
+
 https://github.com/coleifer/huey
 
 ## 通知
@@ -91,3 +96,12 @@ https://github.com/coleifer/huey
 1. NODATA   ---->   OK 启动
 2. OK----------> DOWN 异常
 3. DOWN--------ok 恢复
+
+
+## 部署
+
+- redis
+- consumer
+- nginx :
+    - uwsgi
+    - uwsgi

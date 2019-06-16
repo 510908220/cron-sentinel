@@ -16,6 +16,8 @@ django-cors-headers = "*"
 python-dotenv = "*"
 mysqlclient = "*"
 djangorestframework = "*"
+huey = "*"
+redis = "*"
 
 [requires]
 python_version = "3.6"

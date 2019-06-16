@@ -13,6 +13,9 @@ from .influxdb_api import InfluxDBAPI
 from .models import Service, Tag
 from .serializers import ServiceSerializer, TagSerializer
 
+from api.tasks import add_ping_async
+
+
 logger = logging.getLogger('api')
 
 
@@ -120,12 +123,10 @@ class PingViewSet(viewsets.ViewSet):
                 }
             }
         ]
-        status = True
-        with InfluxDBAPI() as f:
-            status = f.write_pings(json_body)
+        res = add_ping_async(json_body)
 
         return Response({
-            'status': status
+            'status':  'ok'
         })
 
 

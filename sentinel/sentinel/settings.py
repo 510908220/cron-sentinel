@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
+    'huey.contrib.djhuey',
     'api',
     'ui'
 ]
@@ -144,6 +145,26 @@ INFLUXDB = {
 }
 
 SERVER_IP = '47.100.23.235'
+
+# huey 配置
+
+HUEY = {
+    'name': 'sentinel-huey',
+    'immediate': False,
+      'connection': {
+            'host': '172.17.0.3',
+            'port': 6379,
+            'db': 0
+        },
+    'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
+    'consumer': {
+        'blocking': True,  # Use blocking list pop instead of polling Redis.
+        'workers': 4,  # 默认是线程,表示4个线程
+        'scheduler_interval': 1,  # 1s调度一次
+      
+    }
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -201,6 +222,14 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 20,
             'backupCount': 5,
             'formatter': 'simple',
+        },
+        'huey_handler': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, "huey.log"),
+            'maxBytes': 1024 * 1024 * 20,
+            'backupCount': 5,
+            'formatter': 'simple',
         }
     },
     'loggers': {
@@ -215,6 +244,11 @@ LOGGING = {
             'propagate': False
         },   'ui': {
             'handlers': ['ui_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'huey': {
+            'handlers': ['huey_handler'],
             'level': 'INFO',
             'propagate': False
         }
