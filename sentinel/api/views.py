@@ -8,10 +8,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 from rest_framework import authentication, filters, permissions, viewsets
 from rest_framework.response import Response
-
+from rest_framework.pagination import PageNumberPagination
 from .influxdb_api import InfluxDBAPI
-from .models import Service, Tag
-from .serializers import ServiceSerializer, TagSerializer
+from .models import Service, Tag, Alert
+from .serializers import ServiceSerializer, TagSerializer, AlertSerializer
 
 from api.tasks import add_ping_async
 
@@ -31,6 +31,12 @@ def get_ping_points(params, num=10):
         if index > num:
             break
     return results
+
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 25
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 
 class DefaultsMixin(object):
@@ -130,7 +136,6 @@ class PingViewSet(viewsets.ViewSet):
         ]
         res = add_ping_async(json_body)
 
-
         return Response({
             'status':  'ok'
         })
@@ -208,3 +213,16 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
             service = Service.objects.get(unique_id=pk)
         service.save()  # 更新时间字段
         return Response(ServiceSerializer(service).data)
+
+
+class AlertViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    pagination_class = StandardResultsSetPagination
+    queryset = Alert.objects.order_by('-created')
+    serializer_class = AlertSerializer
+    search_fields = ('unique_id', 'msg')
+    ordering_fields = ('created', )
+    filter_fields = ('unique_id',)
+
+    def get_queryset(self):
+        queryset = self.queryset
+        return queryset

@@ -73,6 +73,13 @@ class Service(BaseModel):
 class Alert(BaseModel):
     class Meta:
         db_table = "alert"
-    service_unique_id = models.UUIDField(
+    unique_id = models.UUIDField(
         default=uuid.uuid4, editable=False, unique=True)
     msg = models.TextField(blank=True)
+
+    @staticmethod
+    def create(unique_id, msg):
+        Alert.objects.create(
+            unique_id=unique_id,
+            msg=msg
+        )

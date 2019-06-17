@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 from rest_framework.exceptions import ValidationError
-from .models import Tag, Service
+from .models import Tag, Service,Alert
 
 User = get_user_model()
 
@@ -12,6 +12,13 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name', 'created', 'updated')
+
+
+class AlertSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Alert
+        fields = ('id', 'unique_id','msg' ,'created', 'updated')
 
 
 class ServiceSerializer(serializers.ModelSerializer):
