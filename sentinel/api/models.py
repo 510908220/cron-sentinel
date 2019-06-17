@@ -75,5 +75,4 @@ class Alert(BaseModel):
         db_table = "alert"
     service_unique_id = models.UUIDField(
         default=uuid.uuid4, editable=False, unique=True)
-    channels = models.CharField(max_length=200, blank=True)
     msg = models.TextField(blank=True)
