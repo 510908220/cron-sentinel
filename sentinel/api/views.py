@@ -103,6 +103,11 @@ class PingViewSet(viewsets.ViewSet):
 
         service_obj = get_object_or_404(Service, unique_id=unique_id)
 
+        if service_obj.status == 'paused':
+            return {
+                'status': 'service is paused'
+            }
+
         headers = request.META
         remote_addr = headers.get(
             "HTTP_X_FORWARDED_FOR", headers["REMOTE_ADDR"])
@@ -124,6 +129,7 @@ class PingViewSet(viewsets.ViewSet):
             }
         ]
         res = add_ping_async(json_body)
+
 
         return Response({
             'status':  'ok'
