@@ -73,8 +73,11 @@ class Service(BaseModel):
 class Alert(BaseModel):
     class Meta:
         db_table = "alert"
+        indexes = [
+            models.Index(fields=['unique_id', 'created', ]),
+        ]
     unique_id = models.UUIDField(
-        default=uuid.uuid4, editable=False, unique=True)
+        default=uuid.uuid4, editable=False)
     msg = models.TextField(blank=True)
 
     @staticmethod

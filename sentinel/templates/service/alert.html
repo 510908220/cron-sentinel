@@ -1,0 +1,140 @@
+{% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <!-- DATA TABLE -->
+        <h3 class="title-5 m-b-35"></h3>
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+                <div class="rs-select2--light rs-select2--md">
+                    <label for="inputPassword3" class="col-sm-6 control-label">服务</label>
+                    <select class="js-select2" name="property" id='service-name'>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <div class="rs-select2--light rs-select2--md">
+                    <label for="inputPassword3" class="col-sm-6 control-label">数量</label>
+                    <select class="js-select2" name="property" id='service-count'>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                </div>
+                <button class="au-btn-filter" id='ping-query-btn'>
+                    <i class="zmdi zmdi-filter-list"></i>查询</button>
+            </div>
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                    <i class="zmdi zmdi-plus"></i>导出</button>
+            </div>
+        </div>
+
+        <!-- END DATA TABLE -->
+    </div>
+</div>
+<div class="row m-t-30">
+    <div class="col-md-12">
+        <!-- DATA TABLE-->
+        <div class="table-responsive m-b-40">
+            <table class="table table-borderless table-data3">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>Service</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody id='alerts'>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- END DATA TABLE-->
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %} {% block userscript %}
+<script>
+    "use strict";
+    $(function () {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}',
+                "Authorization": "Token {{token}}"
+            }
+        });
+        var API_ALER_URL = "/api/alerts/?unique_id="
+        var API_SERVICE_URL = "/api/services/"
+
+        function update_service_names(data) {
+
+            data.forEach(function (element) {
+                $("#service-name").empty()
+                let tr = `<option value="${element.unique_id}">${element.name}</option>`
+                console.log(tr)
+                $("#service-name").append(tr)
+            });
+        }
+        function init() {
+            $.ajax({
+                url: API_SERVICE_URL,
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    update_service_names(data)
+                },
+                error: function (xhr, textStatus) {
+                    console.log("init error:" + xhr.responseText)
+                }
+            })
+        }
+
+        function update_alerts(unique_id, count) {
+            $.ajax({
+                url: API_ALER_URL + unique_id + "&count=" + count,
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    update_alerts_ui(data);
+                },
+                error: function (xhr, textStatus) {
+                    console.log("update_alerts error:" + xhr.responseText)
+                }
+            })
+        }
+
+        function update_alerts_ui(data) {
+            $("#alerts").empty();
+            data.forEach(function (element) {
+                let tr = `
+                    <tr><td>${element['created']}</td>
+                            <td>${element['unique_id']}</td>
+                            <td class="process">${element['msg']}</td>
+                            </tr>
+                `
+                console.log(tr)
+                $("#alerts").append(tr)
+            });
+
+
+        }
+        $("#ping-query-btn").click(function () {
+            let unique_id = $("#service-name").val()
+            let count = $("#service-count").val()
+            console.log('query unique is is:' + unique_id + ' count:' + count)
+            if (unique_id) {
+                update_alerts(unique_id, count)
+            }
+
+        });
+        init();
+    });
+</script>
+{% endblock %}

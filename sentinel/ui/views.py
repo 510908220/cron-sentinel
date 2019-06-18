@@ -94,3 +94,13 @@ class PingView(TemplateView):
         context['title'] = "ping"
         context['token'] = get_user_token(self.request.user)
         return context
+
+
+class AlertView(TemplateView):
+    template_name = "service/alert.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(AlertView, self).get_context_data(**kwargs)
+        context['title'] = "alert"
+        context['token'] = get_user_token(self.request.user)
+        return context

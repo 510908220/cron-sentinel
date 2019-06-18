@@ -216,13 +216,15 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
 
 class AlertViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    pagination_class = StandardResultsSetPagination
+    # pagination_class = StandardResultsSetPagination
     queryset = Alert.objects.order_by('-created')
     serializer_class = AlertSerializer
-    search_fields = ('unique_id', 'msg')
-    ordering_fields = ('created', )
-    filter_fields = ('unique_id',)
 
-    def get_queryset(self):
-        queryset = self.queryset
-        return queryset
+    def list(self, request):
+        unique_id = request.query_params.get('unique_id')
+        count = int(request.query_params.get('count',10))
+
+        results = []
+        for alert in Alert.objects.filter(unique_id=unique_id).order_by('-created')[0:count].values():
+            results.append(alert)
+        return Response(results)
