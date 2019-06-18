@@ -151,17 +151,17 @@ SERVER_IP = '47.100.23.235'
 HUEY = {
     'name': 'sentinel-huey',
     'immediate': False,
-      'connection': {
+    'connection': {
             'host': '172.17.0.3',
             'port': 6379,
             'db': 0
-        },
+    },
     'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
     'consumer': {
         'blocking': True,  # Use blocking list pop instead of polling Redis.
         'workers': 4,  # 默认是线程,表示4个线程
         'scheduler_interval': 1,  # 1s调度一次
-      
+
     }
 }
 

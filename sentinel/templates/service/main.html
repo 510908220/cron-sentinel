@@ -1,40 +1,22 @@
-{% extends "base.html" %} {% block title %}{{ title }}{% endblock %} {% block content %}
+{% extends "base.html" %} 
+
+{% block title %}{{ title }}{% endblock %} {% block content %}
 <div class="row">
     <div class="col-md-12">
         <!-- DATA TABLE -->
         <h3 class="title-5 m-b-35"></h3>
+        
         <div class="table-data__tool">
+       
             <div class="table-data__tool-left">
-                <div class="rs-select2--light rs-select2--md">
-                    <select class="js-select2" name="property">
-                        <option selected="selected">All Properties</option>
-                        <option value="">Option 1</option>
-                        <option value="">Option 2</option>
-                    </select>
-                    <div class="dropDownSelect2"></div>
-                </div>
-                <div class="rs-select2--light rs-select2--sm">
-                    <select class="js-select2" name="time">
-                        <option selected="selected">Today</option>
-                        <option value="">3 Days</option>
-                        <option value="">1 Week</option>
-                    </select>
-                    <div class="dropDownSelect2"></div>
-                </div>
-                <button class="au-btn-filter">
-                    <i class="zmdi zmdi-filter-list"></i>filters</button>
+                    <input type="text" value="" data-role="tagsinput" id="tag"/>
+                <button class="au-btn-filter" id='search-btn'> <i class="zmdi zmdi-filter-list" ></i>查询</button>
             </div>
             <div class="table-data__tool-right">
-                <button class="au-btn au-btn-icon au-btn--green au-btn--small" id='add-service-btn'>
+          
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" id=' add-service-btn'>
                     <i class="zmdi zmdi-plus"></i>新增</button>
-                <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                    <select class="js-select2" name="type">
-                        <option selected="selected">Export</option>
-                        <option value="">Option 1</option>
-                        <option value="">Option 2</option>
-                    </select>
-                    <div class="dropDownSelect2"></div>
-                </div>
+
             </div>
         </div>
 
@@ -158,6 +140,11 @@
         var service_cache = {
 
         }
+
+ 
+
+
+
         $("#add-service-btn").click(function () {
             $('#service-modal').modal('show');
             $("#service-modal .modal-title").html('new service');
@@ -226,6 +213,9 @@
             $('#service-modal').modal('hide');
         });
 
+        $("#search-btn").click(function () {
+                update_service($("#tag").val())
+        });
         function delete_service(unique_id) {
             $.ajax({
                 url: API_SERVICE_URL + unique_id + "/",
@@ -303,9 +293,14 @@
                 });
             });
         }
-        function update_service() {
+        function update_service(tags) {
+            let url = API_SERVICE_URL
+            if (tags) {
+                url  = url + "?tags=" + tags
+            }
+            
             $.ajax({
-                url: API_SERVICE_URL,
+                url: url,
                 type: 'GET',
                 async: true,
                 dataType: 'json',
@@ -336,28 +331,31 @@
                     "nodata": "user",
                     "error": "admin",
                 }[element['status']]
-                
-                
+
+
                 let stop_name = ""
-                if ( element['status'] === "paused") {
+                if (element['status'] === "paused") {
                     stop_name = "恢复"
                 } else {
                     stop_name = "暂停"
                 }
                 let tr = `
-                    <tr><td> <span class="role ${member}">${element['status']}</span> </td>
-                        <td><a href='/service/${element['unique_id']}'>${element['name']}</a></td>
-                        <td>${element['schedule']}</td>
-                        <td class="process">${element['last_ping_time']}</td>
-                        <td>${element['notify']}</td>
-                        <td>${tag_str}</td>
-                        <td>
-                        <button type="button" class="btn  btn-info btn-xs modify-service-btn" value="${element['unique_id']}">修改</button>
-                        <button type="button" class="btn  btn-danger btn-xs del-service-btn" value="${element['unique_id']}">删除</button>
-                        <button type="button" class="btn  btn-warning btn-xs pause-service-btn" value="${element['unique_id']}">${stop_name}</button>
-                        </td>
-                            </tr>
-                `
+<tr>
+    <td> <span class="role ${member}">${element['status']}</span> </td>
+    <td><a href='/service/${element[' unique_id']}'>${element['name']}</a></td>
+    <td>${element['schedule']}</td>
+    <td class="process">${element['last_ping_time']}</td>
+    <td>${element['notify']}</td>
+    <td>${tag_str}</td>
+    <td>
+        <button type="button" class="btn  btn-info btn-xs modify-service-btn"
+            value="${element['unique_id']}">修改</button>
+        <button type="button" class="btn  btn-danger btn-xs del-service-btn" value="${element['unique_id']}">删除</button>
+        <button type="button" class="btn  btn-warning btn-xs pause-service-btn"
+            value="${element['unique_id']}">${stop_name}</button>
+    </td>
+</tr>
+`
                 console.log(tr)
                 $("#services").append(tr)
             });

@@ -19,8 +19,7 @@
     <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
 
-    <!-- Bootstrap CSS-->
-    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+ 
 
     <!-- Vendor CSS-->
     <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
@@ -31,9 +30,19 @@
     <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet" media="all">
 
+
     <!-- Main CSS-->
+    
+    <link href="{% static 'vendor/bootstrap-tagsinput/bootstrap-tagsinput.css' %}" rel="stylesheet" media="all">
+   <!-- Bootstrap CSS-->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
 
+    <style>
+    .label-info {
+    background-color: #5bc0de;
+}
+    </style>
 </head>
 
 <body class="animsition">
@@ -191,6 +200,9 @@
     <script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
     <script src="{% static 'vendor/chartjs/Chart.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/select2/select2.min.js' %}">
+    </script>
+
+    <script src="{% static 'vendor/bootstrap-tagsinput/bootstrap-tagsinput.min.js' %}">
     </script>
 
     <!-- Main JS-->

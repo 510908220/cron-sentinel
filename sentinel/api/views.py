@@ -149,12 +149,32 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
     filter_class = ServiceFilter
     filter_fields = ('tags', 'status', 'tp')
 
-    def get_queryset(self):
-        return self.queryset.filter(assigned=self.request.user)
+    def get_queryset(self, tags=None):
+        qs = self.queryset.filter(assigned=self.request.user)
+        if tags:
+            values = tags.strip().split(',')
+        else:
+            values = []
+        if not values:
+            return qs
+
+        is_tag_exist = False
+        for value in values:
+            tag_objs = Tag.objects.filter(name=value)
+            if not tag_objs:
+                continue
+            is_tag_exist = True
+            qs = qs.filter(tags=tag_objs[0])
+
+        if not is_tag_exist:
+            return Service.objects.none()
+        return qs
 
     def list(self, request):
+        tags = request.query_params.get('tags')
+        print(tags)
         services = []
-        for service in self.get_queryset():
+        for service in self.get_queryset(tags):
             service_dict = ServiceSerializer(service).data
             service_dict['schedule'] = '{} {}'.format(
                 service_dict['tp'], service_dict['value'])
@@ -222,7 +242,7 @@ class AlertViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     def list(self, request):
         unique_id = request.query_params.get('unique_id')
-        count = int(request.query_params.get('count',10))
+        count = int(request.query_params.get('count', 10))
 
         results = []
         for alert in Alert.objects.filter(unique_id=unique_id).order_by('-created')[0:count].values():
