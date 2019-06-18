@@ -17,6 +17,7 @@ from rest_framework.authtoken.models import Token
 from api.models import Service
 from django.shortcuts import get_object_or_404
 from api.statistics import get_service_run
+from api.statistics import get_dashboard
 
 
 def get_user_token(user):
@@ -48,9 +49,11 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        context['title'] = ""
-        print(self.request.user, type(self.request.user))
+        context['title'] = "Dashboard"
+        context['dashboard'] = get_dashboard(self.request.user)
+        print(context['dashboard'])
         context['token'] = get_user_token(self.request.user)
+
         return context
 
 
