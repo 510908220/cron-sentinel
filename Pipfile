@@ -18,6 +18,8 @@ mysqlclient = "*"
 djangorestframework = "*"
 huey = "*"
 redis = "*"
+djmail = "*"
+premailer = "*"
 
 [requires]
 python_version = "3.6"

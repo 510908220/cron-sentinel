@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'huey.contrib.djhuey',
+
+    'djmail',
+
     'api',
     'ui'
 ]
@@ -134,6 +137,14 @@ USE_L10N = True
 
 USE_TZ = False
 
+# djmail设置
+DJMAIL_REAL_BACKEND = "djmail.backends.async.EmailBackend"
+DEFAULT_FROM_EMAIL = '528194763@qq.com'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = '528194763'
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'aaaa'
+EMAIL_USE_TLS = True
 
 # InfluxDB 设置
 INFLUXDB = {
