@@ -158,21 +158,16 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
         if not values:
             return qs
 
-        is_tag_exist = False
         for value in values:
             tag_objs = Tag.objects.filter(name=value)
             if not tag_objs:
-                continue
-            is_tag_exist = True
+                return Service.objects.none()
             qs = qs.filter(tags=tag_objs[0])
 
-        if not is_tag_exist:
-            return Service.objects.none()
         return qs
 
     def list(self, request):
         tags = request.query_params.get('tags')
-        print(tags)
         services = []
         for service in self.get_queryset(tags):
             service_dict = ServiceSerializer(service).data
@@ -225,7 +220,7 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
             Service.objects.filter(unique_id=pk).update(**params)
             service = Service.objects.get(unique_id=pk)
             service.tags.clear()
-            for tag in tags:
+            for tag in tags.strip().split(","):
                 tag_obj, _ = Tag.objects.get_or_create(name=tag)
                 service.tags.add(tag_obj)
         else:
