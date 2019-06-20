@@ -105,3 +105,14 @@ https://github.com/coleifer/huey
 - nginx :
     - uwsgi
     - uwsgi
+
+```
+docker-compose build  # to make sure everything is up-to-date
+docker-compose run --rm djangoapp /bin/bash -c "cd hello; ./manage.py migrate"
+docker-compose run djangoapp hello/manage.py collectstatic --no-input
+
+```
+
+## 参考
+
+http://pawamoy.github.io/2018/02/01/docker-compose-django-postgres-nginx.html

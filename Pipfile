@@ -20,6 +20,7 @@ huey = "*"
 redis = "*"
 djmail = "*"
 premailer = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"

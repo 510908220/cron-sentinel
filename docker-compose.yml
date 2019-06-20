@@ -1,0 +1,98 @@
+version: '3'
+services:
+    influxdb:
+      image: influxdb:latest
+      volumes:
+        - influxdb-storage:/var/lib/influxdb
+      env_file:
+        - influxdb.env
+      networks:
+        - influxdb_network
+
+    redis:
+      image: redis:alpine
+      networks:
+        - redis_network
+      volumes:
+        redis_volume:/data
+    db:
+      container_name: mysql
+      image: mysql:5.7
+      env_file:
+        - mysql.env
+      volumes:
+        - mysqldata:/var/lib/mysql
+      networks:
+        - db_network
+    nginx:
+        image: nginx:1.13
+        restart: always
+        ports:
+          - 80:80
+        volumes:
+          - ./docker/nginx/conf.d:/etc/nginx/conf.d
+          - static_volume:/opt/services/djangoapp/static  # <-- bind the static volume
+          - media_volume:/opt/services/djangoapp/media  # <-- bind the media volume
+        depends_on:
+          - djangoapp
+        networks:
+          - nginx_network
+
+
+    djangoapp:
+        container_name: djangoapp-container
+        build: 
+        env_file:
+          - web.env
+          - mysql.env
+          - influxdb.env
+        volumes:
+          - .:/opt/services/djangoapp/src
+          - static_volume:/opt/services/djangoapp/static  # <-- bind the static volume
+          - media_volume:/opt/services/djangoapp/media  # <-- bind the media volume
+
+        networks:
+          - nginx_network
+          - db_network
+          - redis_network
+          - influxdb_network
+        depends_on:
+          - db
+          - redis
+          - influxdb
+
+    worker:
+        container_name: worker-container
+        build: 
+        env_file:
+          - web.env
+          - mysql.env
+          - influxdb.env
+        volumes:
+          - .:/opt/services/djangoapp/src
+        command: python ./sentinel manage.py run_huey
+        networks:
+          - db_network
+          - redis_network
+          - influxdb_network
+        depends_on:
+          - db
+          - redis
+          - influxdb
+
+networks:  # <-- and here
+  nginx_network:
+    driver: bridge
+  db_network:
+    driver: bridge
+  redis_network:
+    driver: bridge
+  influxdb_network:
+    driver: bridge
+    
+volumes:
+  mysqldata:
+  redis_volume:
+  static_volume:  # <-- declare the static volume
+  media_volume:  # <-- declare the media volume
+  influxdb-storage:

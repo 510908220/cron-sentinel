@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from django.urls import reverse_lazy
-from dotenv import load_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,8 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
-
-load_dotenv(dotenv_path=os.path.join(BASE_DIR, 'settings.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -94,11 +91,11 @@ WSGI_APPLICATION = 'sentinel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        "HOST": os.environ['DB_HOST'],
-        'PORT': os.environ['DB_PORT'],
-        'USER': os.environ['DB_USER'],
-        "PASSWORD": os.environ['DB_PASSWORD'],
-        'NAME': os.environ['DB_NAME'],
+        "HOST": os.environ['MYSQL_HOST'],
+        'PORT': 3306,
+        'USER': os.environ['MYSQL_USER'],
+        "PASSWORD": os.environ['MYSQL_ROOT_PASSWORD'],
+        'NAME': os.environ['MYSQL_DATABASE'],
         'TEST': {'CHARSET': 'UTF8'}
     }
 }
@@ -143,19 +140,19 @@ DEFAULT_FROM_EMAIL = '528194763@qq.com'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_HOST_USER = '528194763'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = 'aaaa'
+EMAIL_HOST_PASSWORD = 'gfnthuakqdkmbida'
 EMAIL_USE_TLS = True
 
 # InfluxDB 设置
 INFLUXDB = {
-    'host': 'localhost',
+    'host': os.environ['INFLUXDB_HOST'],
     'port': 8086,
-    'username': 'root',
-    'password': 'root',
-    'database': 'sentinel'
+    'username': os.environ['INFLUXDB_ADMIN_USER'],
+    'password': os.environ['INFLUXDB_ADMIN_PASSWORD'],
+    'database': os.environ['INFLUXDB_DB']
 }
 
-SERVER_IP = '47.100.23.235'
+SERVER_IP = os.environ['SERVER_IP']
 
 # huey 配置
 
@@ -163,7 +160,7 @@ HUEY = {
     'name': 'sentinel-huey',
     'immediate': False,
     'connection': {
-            'host': '172.17.0.3',
+            'host': os.environ['REDIS_HOST'],
             'port': 6379,
             'db': 0
     },
@@ -180,7 +177,8 @@ HUEY = {
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'static')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
