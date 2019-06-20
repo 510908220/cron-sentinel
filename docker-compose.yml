@@ -2,6 +2,7 @@ version: '3'
 services:
     influxdb:
       image: influxdb:latest
+      container_name: influxdb-container
       volumes:
         - influxdb-storage:/var/lib/influxdb
       env_file:

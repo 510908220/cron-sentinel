@@ -111,6 +111,9 @@ docker-compose build  # to make sure everything is up-to-date
 docker-compose run --rm djangoapp /bin/bash -c "cd sentinel; ./manage.py migrate"
 docker-compose run djangoapp hello/manage.py collectstatic --no-input
 influxdb 目前手动创建的
+
+docker-compose exec  influxdb influx -precision rfc3339
+create retention policy "30_days" on "sentinel" duration 30d replication 1 default
 ```
 
 ## 参考
