@@ -14,9 +14,8 @@ services:
       networks:
         - redis_network
       volumes:
-        redis_volume:/data
+        - redis_volume:/data
     db:
-      container_name: mysql
       image: mysql:5.7
       env_file:
         - mysql.env
@@ -40,8 +39,9 @@ services:
 
 
     djangoapp:
+        image: djangoapp
         container_name: djangoapp-container
-        build: 
+        build: .
         env_file:
           - web.env
           - mysql.env
@@ -63,7 +63,7 @@ services:
 
     worker:
         container_name: worker-container
-        build: 
+        image: djangoapp
         env_file:
           - web.env
           - mysql.env

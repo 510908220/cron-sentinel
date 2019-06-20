@@ -108,7 +108,7 @@ https://github.com/coleifer/huey
 
 ```
 docker-compose build  # to make sure everything is up-to-date
-docker-compose run --rm djangoapp /bin/bash -c "cd hello; ./manage.py migrate"
+docker-compose run --rm djangoapp /bin/bash -c "cd sentinel; ./manage.py migrate"
 docker-compose run djangoapp hello/manage.py collectstatic --no-input
 
 ```
