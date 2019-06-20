@@ -70,7 +70,7 @@ services:
           - influxdb.env
         volumes:
           - .:/opt/services/djangoapp/src
-        command: python ./sentinel manage.py run_huey
+        command: python ./sentinel/manage.py run_huey --disable-autoload
         networks:
           - db_network
           - redis_network

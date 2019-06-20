@@ -147,8 +147,6 @@ EMAIL_USE_TLS = True
 INFLUXDB = {
     'host': os.environ['INFLUXDB_HOST'],
     'port': 8086,
-    'username': os.environ['INFLUXDB_ADMIN_USER'],
-    'password': os.environ['INFLUXDB_ADMIN_PASSWORD'],
     'database': os.environ['INFLUXDB_DB']
 }
 

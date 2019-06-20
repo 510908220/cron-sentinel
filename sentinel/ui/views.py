@@ -21,7 +21,7 @@ from api.statistics import get_dashboard
 
 
 def get_user_token(user):
-    token = Token.objects.get(user=user)
+    token,_ = Token.objects.get_or_create(user=user)
     return token.key
 
 

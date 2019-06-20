@@ -18,7 +18,7 @@ def get_service_run(unique_id):
     '''
     获取服务近一月的ping次数
     '''
-    sql = "SELECT count(value) FROM  pings WHERE time > now() - 30d and unique_id = {} GROUP BY time(1d)".format(unique_id)
+    sql = "SELECT count(value) FROM  pings WHERE time > now() - 30d and unique_id = '{}' GROUP BY time(1d)".format(unique_id)
 
     labels = []
     data = []
