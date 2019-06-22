@@ -132,7 +132,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 # djmail设置
 DJMAIL_REAL_BACKEND = "djmail.backends.async.EmailBackend"

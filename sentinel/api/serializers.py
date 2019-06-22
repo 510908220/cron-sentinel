@@ -18,7 +18,7 @@ class AlertSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Alert
-        fields = ('id', 'unique_id','msg' ,'created', 'updated')
+        fields = ('id', 'unique_id','msg' ,'service_name','created', 'updated')
 
 
 class ServiceSerializer(serializers.ModelSerializer):

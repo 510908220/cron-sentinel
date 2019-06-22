@@ -51,13 +51,12 @@ class Service(BaseModel):
     tp = models.CharField(choices=TYPES, default=TYPES[0][0], max_length=20)
     value = models.CharField(max_length=200, default='')
 
-    last_check_timestamp = models.IntegerField(default=0)  # 上次检查时间
+    last_check_timestamp = models.CharField(max_length=200, default='')  # 上次检查时间
     # notify
     alert_count = models.IntegerField(default=0)  # 本次已经告警的次数, 恢复后清0
     alert_interval_min = models.IntegerField(
         default=0)  # 告警间隔,比如60，意思是一小时内最多告警一次
-    last_alert_timestamp = models.IntegerField(
-        default=0)  # 上一次告警时间, 服务恢复后需要重置此值
+    last_alert_timestamp = models.CharField(max_length=200, default='') # 上一次告警时间, 服务恢复后需要重置此值
 
     grace = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag, related_name='services')
@@ -78,6 +77,7 @@ class Alert(BaseModel):
         ]
     unique_id = models.UUIDField(
         default=uuid.uuid4, editable=False)
+    service_name = models.CharField(max_length=200, default='')
     msg = models.TextField(blank=True)
 
     @staticmethod

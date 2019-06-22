@@ -7,14 +7,27 @@
 from djmail.template_mail import InlineCSSTemplateMail
 
 
-def email(to, params):
+def _email(to, params):
     o = InlineCSSTemplateMail(params['level'])
     o.send(to, params)
 
 
-def sms(to, params):
+def _sms(to, params):
     pass
 
 
-def wechat(to, params):
+def _wechat(to, params):
     pass
+
+
+FUNCS = {
+    'wechat': _wechat,
+    'email': _email,
+    'sms': _sms
+}
+
+
+def alert(to, params):
+    for tp in to:
+        func = FUNCS[tp]
+        func(to[tp], params)
