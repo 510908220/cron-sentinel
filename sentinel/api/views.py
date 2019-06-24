@@ -19,17 +19,13 @@ from api.tasks import add_ping_async
 logger = logging.getLogger('api')
 
 
-def get_ping_points(params, num=10):
+def get_ping_points(unique_id, num=10):
     results = []
-    index = 1
 
     with InfluxDBAPI() as f:
-        pings = f.get_pings(params)
+        pings = f.get_pings(unique_id, num)
     for ping in pings:
         results.append(ping)
-        index += 1
-        if index > num:
-            break
     return results
 
 
@@ -94,10 +90,7 @@ class PingViewSet(viewsets.ViewSet):
         if not count:
             count = 10
         get_object_or_404(Service, unique_id=unique_id)
-        params = {
-            'unique_id': unique_id
-        }
-        results = get_ping_points(params, int(count))
+        results = get_ping_points(unique_id, int(count))
 
         return Response(results)
 
@@ -174,9 +167,7 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
             service_dict['schedule'] = '{} {}'.format(
                 service_dict['tp'], service_dict['value'])
 
-            results = get_ping_points({
-                'unique_id': str(service.unique_id)
-            }, 1)
+            results = get_ping_points(unique_id, 1)
             # 通知方式
             notify = []
             for notify_tp in ['email', 'wechat', 'sms']:

@@ -116,6 +116,25 @@ docker-compose exec  influxdb influx -precision rfc3339
 create retention policy "30_days" on "sentinel" duration 30d replication 1 default
 ```
 
+## 问题
+
+1. redis内存太大
+
+`huey.results.sentinelhuey`找个key太多
+
+配置
+```
+# settings.py
+HUEY = {
+    'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
+    'name': settings.DATABASES['default']['NAME'],  # Use db name for huey.
+    'results': True,  # Store return values of tasks.
+```
+修改`'results': True`为`'results': False`
+
+## 代办
+
+计算一个服务最后一条记录很慢，是不是放在service model里
 ## 参考
 
 http://pawamoy.github.io/2018/02/01/docker-compose-django-postgres-nginx.html

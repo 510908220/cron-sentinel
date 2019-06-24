@@ -136,11 +136,11 @@ USE_TZ = True
 
 # djmail设置
 DJMAIL_REAL_BACKEND = "djmail.backends.async.EmailBackend"
-DEFAULT_FROM_EMAIL = '528194763@qq.com'
-EMAIL_HOST = 'smtp.qq.com'
-EMAIL_HOST_USER = '528194763'
-EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = 'gfnthuakqdkmbida'
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_PORT = os.environ['EMAIL_PORT']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = True
 
 # InfluxDB 设置
@@ -163,6 +163,7 @@ HUEY = {
             'db': 0
     },
     'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
+    'results': False,   # True会导致redis hash key太多
     'consumer': {
         'blocking': True,  # Use blocking list pop instead of polling Redis.
         'workers': 4,  # 默认是线程,表示4个线程
