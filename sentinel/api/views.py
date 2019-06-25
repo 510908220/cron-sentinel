@@ -167,7 +167,7 @@ class ServiceViewSet(DefaultsMixin, viewsets.ModelViewSet):
             service_dict['schedule'] = '{} {}'.format(
                 service_dict['tp'], service_dict['value'])
 
-            results = get_ping_points(unique_id, 1)
+            results = get_ping_points(service.unique_id, 1)
             # 通知方式
             notify = []
             for notify_tp in ['email', 'wechat', 'sms']:
