@@ -171,7 +171,7 @@ def every_five_mins():
     for service in Service.objects.all():
         if not service.last_check_timestamp:
             continue
-        if service.tp = 'at':
+        if service.tp == 'at':
             process_at_service(service)
-        elif service.tp = 'every':
+        elif service.tp == 'every':
             process_every_service(service)

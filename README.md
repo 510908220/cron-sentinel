@@ -134,7 +134,8 @@ HUEY = {
 
 ## 代办
 
-计算一个服务最后一条记录很慢，是不是放在service model里
+1. 前端资源文件加载优化，去掉不用的
+2. 
 ## 参考
 
 http://pawamoy.github.io/2018/02/01/docker-compose-django-postgres-nginx.html
