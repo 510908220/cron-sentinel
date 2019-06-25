@@ -37,12 +37,12 @@ def update_service_status(ping):
     s = Service.objects.get(unique_id=unique_id)
     recover = False
     if not last_ping:
-        logger.info('first:%s', status)
         # 第一次
         if value == 'cola':
             status = 'ok'
         else:
             status = 'error'
+        logger.info('first:%s', status)
     else:
         logger.info('multi:%s', value)
         if s.status in ['alert', 'nodata']:
@@ -72,7 +72,7 @@ def update_service_status(ping):
     s.status = status
     s.last_check_timestamp = ping['time']
 
-    s.save(update_fields=['last_check_timestamp', 'status', 'alert_count'])
+    s.save(update_fields=['last_check_timestamp', 'status'])
 
     if status == 'error':
         notify(unique_id, 'error', 'has error:{}'.format(value))
