@@ -108,7 +108,7 @@ def notify(unique_id, status, msg):
         msg='{} {}'.format(service.name, msg)
     )
 
-    if service.last_alert_timestamp:
+    if service.last_alert_timestamp != '0':
         period = pendulum.now(tz='UTC') - \
             pendulum.parse(service.last_alert_timestamp)
         if period.total_minutes() <= service.alert_interval_min:
@@ -164,7 +164,7 @@ def process_every_service(service):
         notify(service.unique_id, 'alert', 'every no ping')
 
 
-@periodic_task(crontab(minute='*/5'))
+@periodic_task(crontab(minute='*/2'))
 def every_five_mins():
     # This is a periodic task that executes queries.
     # 如果任务长时间没有ping，状态置位alert
