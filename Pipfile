@@ -21,6 +21,7 @@ redis = "*"
 djmail = "*"
 premailer = "*"
 gunicorn = "*"
+pendulum = "*"
 
 [requires]
 python_version = "3.6"
