@@ -4,14 +4,16 @@
 定义需要后台运行的任务
 '''
 
-import time
 import datetime
-from huey import crontab
-from huey.contrib.djhuey import task, periodic_task, db_task
-from api.influxdb_api import InfluxDBAPI
-from api.models import Service, Alert
-from api import notice
 import logging
+import time
+
+import pendulum
+from api import notice
+from api.influxdb_api import InfluxDBAPI
+from api.models import Alert, Service
+from huey import crontab
+from huey.contrib.djhuey import db_task, periodic_task, task
 
 logger = logging.getLogger('huey')
 
@@ -54,7 +56,7 @@ def update_service_status(ping):
             else:
                 status = 'error'  # ok--->error
             logger.info('--->%s', status)
-        
+
         elif s.status in ['error']:
             if value == 'cola':  # error-->ok
                 status = 'ok'
@@ -66,8 +68,7 @@ def update_service_status(ping):
             if value == 'cola':  # ok-->ok
                 status = 'ok'
             else:
-                status = 'error' # ok---error
-
+                status = 'error'  # ok---error
 
     s.status = status
     s.last_check_timestamp = ping['time']
@@ -76,7 +77,7 @@ def update_service_status(ping):
 
     if status == 'error':
         notify(unique_id, 'error', 'has error:{}'.format(value))
-    elif  status == 'ok' and recover:
+    elif status == 'ok' and recover:
         notify(unique_id, 'ok', 'recover')
 
 
@@ -107,9 +108,9 @@ def notify(unique_id, status, msg):
         msg='{} {}'.format(service.name, msg)
     )
 
-    if s.last_alert_timestamp:
+    if service.last_alert_timestamp:
         period = pendulum.now(tz='UTC') - \
-            pendulum.parse(s.last_alert_timestamp)
+            pendulum.parse(service.last_alert_timestamp)
         if period.total_minutes() <= service.alert_interval_min:
             logger.info('end notify service:%s, %s min shoule only one alert',
                         service.name, service.alert_interval_min)
@@ -133,8 +134,8 @@ def notify(unique_id, status, msg):
         'sms': service.sms
     }, params)
 
-    s.last_alert_timestamp = pendulum.now(tz='UTC').to_datetime_string()
-    s.save(update_fields=['status', 'last_alert_timestamp'])
+    service.last_alert_timestamp = pendulum.now(tz='UTC').to_datetime_string()
+    service.save(update_fields=['status', 'last_alert_timestamp'])
     logger.info('end notify service:%s', service.name)
 
 
