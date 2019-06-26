@@ -170,7 +170,7 @@ def every_five_mins():
     # 如果任务长时间没有ping，状态置位alert
     timestamp = time.time()
     for service in Service.objects.all():
-        if not service.last_check_timestamp:
+        if service.last_check_timestamp == "0":
             continue
         if service.tp == 'at':
             process_at_service(service)
