@@ -108,7 +108,8 @@ def notify(unique_id, status, msg):
         msg='{} {}'.format(service.name, msg)
     )
 
-    if service.last_alert_timestamp != '0':
+    # TODO: 恢复事件需要考虑间隔吗
+    if service.last_alert_timestamp != '0' and msg ！= 'recover':
         period = pendulum.now(tz='UTC') - \
             pendulum.parse(service.last_alert_timestamp)
         if period.total_minutes() <= service.alert_interval_min:
