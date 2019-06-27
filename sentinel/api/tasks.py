@@ -102,12 +102,6 @@ def notify(unique_id, status, msg):
     # 1. change service status
     last_status = service.status
     service.status = status
-    # 2. Create alert
-    Alert.objects.create(
-        unique_id=service.unique_id,
-        service_name=service.name,
-        msg='{} {}'.format(service.name, msg)
-    )
 
     bad_status = ['alert', 'status']
     continuous = last_status in bad_status and status in bad_status
@@ -120,6 +114,15 @@ def notify(unique_id, status, msg):
             logger.info('end notify service:%s, %s min shoule only one alert',
                         service.name, service.alert_interval_min)
             return
+
+    # 2. Create alert
+    logger.info('new alert')
+    Alert.objects.create(
+        unique_id=service.unique_id,
+        service_name=service.name,
+        msg='{} {}'.format(service.name, msg)
+    )
+
     # 3. notify
     level = {
         'alert': 'warning',
