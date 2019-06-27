@@ -100,6 +100,7 @@ def notify(unique_id, status, msg):
     service = Service.objects.get(unique_id=unique_id)
     logger.info('begin notify service:%s', service.name)
     # 1. change service status
+    last_status = service.status
     service.status = status
     # 2. Create alert
     Alert.objects.create(
@@ -108,8 +109,11 @@ def notify(unique_id, status, msg):
         msg='{} {}'.format(service.name, msg)
     )
 
+    bad_status = ['alert', 'status']
+    continuous = last_status in bad_status and status in bad_status
     # TODO: 恢复事件需要考虑间隔吗
-    if service.last_alert_timestamp != '0' and msg != 'recover':
+    logger.info('continuous is %s', continuous)
+    if service.last_alert_timestamp != '0' and continuous:
         period = pendulum.now(tz='UTC') - \
             pendulum.parse(service.last_alert_timestamp)
         if period.total_minutes() <= service.alert_interval_min:
