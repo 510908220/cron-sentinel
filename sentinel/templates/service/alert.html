@@ -40,6 +40,7 @@
                 <thead>
                     <tr>
                         <th>时间</th>
+                        <th>Service Name</th>
                         <th>Service</th>
                         <th>Value</th>
                     </tr>
@@ -115,6 +116,7 @@
             data.forEach(function (element) {
                 let tr = `
                     <tr><td>${element['created']}</td>
+                            <td>${element['service_name']}</td>
                             <td>${element['unique_id']}</td>
                             <td class="process">${element['msg']}</td>
                             </tr>
