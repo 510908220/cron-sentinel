@@ -28,7 +28,7 @@ LOGOUT_URL = reverse_lazy('logout')
 SECRET_KEY = '$^pp)rt=a&hi6qe$!x!6m4@&1k8i1z!bj2v4ocx7e8il65bd=i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = eval(os.environ['DEBUG'])
 
 ALLOWED_HOSTS = ['47.100.23.235']
 
