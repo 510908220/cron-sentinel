@@ -1,141 +1,97 @@
 # cron-sentinel
-is  a tool to monitor your scheduled jobs (or cron jobs). 
+is  a tool to monitor your scheduled jobs (or cron jobs).   简言之,就是被监控服务通过定时发送请求到服务端来表示服务正常与否.
 
-## influxdb
+## 架构图
 
-#### 数据库创建
-> 因为在阿里云环境,有防火墙, 所以没开启http认证
+![](images/arch.png)
 
-
-```
-influx -precision rfc3339
-```
-
-创建数据库
-```
-CREATE DATABASE sentinel
-```
-
-查看保留策略
-```
-show retention policies on sentinel
-```
-
-创建一个`30`天的策略
-```
- create retention policy "30_days" on "sentinel" duration 30d replication 1 default
-```
-
-#### python操作
-
-https://github.com/influxdata/influxdb-python
-https://influxdb-python.readthedocs.io/en/latest/resultset.html
-
-```python
-from influxdb import InfluxDBClient
-client = InfluxDBClient('localhost', 8086, 'root', 'root', 'sentinel')
-json_body = [
-    {
-        "measurement": "pings",
-        "tags": {
-            "host": "10.5.2.5",
-            "service_unique_id": 'xxxxxxx'
-        },
-        "time": "2019-6-4 12:54:39",
-        "fields": {
-            "value": 0.8
-        }
-    }
-]
-client.write_points(json_body)
-
-result = client.query('select value from pings;')
-
-print("Result: {0}".format(result))
-
-```
-
-## MYSQL
-
-```shell
-docker run -p 3066:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD='!@#$ESZAQ' -d mysql
-```
-
-创建数据库
-
-```sql
-CREATE DATABASE sentinel  CHARACTER SET utf8 COLLATE utf8_general_ci;
-```
-
-## 接口
-
-#### 获取服务对应的上报数据
-
-```
-/api/pings/?service_unique_id=d4494a5b-b6e6-4654-b19c-aae65642aa84
-```
-
-#### 获取当前登陆用户的服务
-
-```
-/api/services/?tags=aaa
-```
-
-
-## 消息队列
-
-#### redis安装
-```
-docker run --name  sentinel-redis -v  /opt/redis_data:/data  -d redis
-```
-
-https://github.com/coleifer/huey
-
-## 通知
-
-1. NODATA   ---->   OK 启动
-2. OK----------> DOWN 异常
-3. DOWN--------ok 恢复
-
+- infuxdb: 存储上报上来的数据
+- worker: 执行一些后台任务
+- redis: 消息队列,huey会使用
+- mysql: 存储服务、告警信息等
 
 ## 部署
 
-- redis
-- consumer
-- nginx :
-    - uwsgi
-    - uwsgi
+#### docker方式
 
-```
-docker-compose build  # to make sure everything is up-to-date
-docker-compose run --rm djangoapp /bin/bash -c "cd sentinel; ./manage.py migrate"
-docker-compose run djangoapp hello/manage.py collectstatic --no-input
-influxdb 目前手动创建的
+1. `docker-compose build  `构建镜像
+2. `docker-compose run --rm djangoapp /bin/bash -c "cd sentinel; ./manage.py makemigrations;./manage.py migrate"`应用数据库差异
+3. `docker-compose run djangoapp sentinel/manage.py collectstatic --no-input`生成资源
+4. 创建`influxdb`
+   - `docker-compose exec  influxdb influx -precision rfc3339`
+   - 创建一个`30`天的策略:`create retention policy "30_days" on "sentinel" duration 30d replication 1 default`
 
-docker-compose exec  influxdb influx -precision rfc3339
-create retention policy "30_days" on "sentinel" duration 30d replication 1 default
-```
+## 演示
 
-## 问题
+#### 首页
 
-1. redis内存太大
+![](images/home.png)
 
-`huey.results.sentinelhuey`找个key太多
+#### 服务
 
-配置
-```
-# settings.py
-HUEY = {
-    'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
-    'name': settings.DATABASES['default']['NAME'],  # Use db name for huey.
-    'results': True,  # Store return values of tasks.
-```
-修改`'results': True`为`'results': False`
+![](images/service.png)
+
+![](images/item1.png)
+
+![](images/item2.png)
+
+#### 告警
+
+![](images/alert.png)
+
+#### Ping
+
+![](images/ping.png)
+
+#### 通知
+
+![](images/email1.png)
+
+![](images/email2.png)
+
+
+
+## Demo
+
+1. http://47.100.23.235
+
+2. 在服务页面,点击`新增`:
+
+   - schedule: 
+     - at:表示每天几点应该收到请求，比如每天晚上7点执行备份,可以在value写成19:00
+     - every:表示每隔多久应该收到请求，比如每30分钟执行一次磁盘清理,可以在value写30
+   - value:根据schedule有不同的值
+   - grace:就是一个宽限期,如果没30分钟执行一次,服务本身执行时间可能需要花费2分钟.那么这个值可以写成3
+   - alert_interval_min:如果服务端一直没收到客户端请求,为了避免一直告警,这里设置N分钟内置告警一次.
+   - 通知: 邮件,微信,短信
+   - name:服务名称
+   - tags:标签,方面搜索
+   - description:描述
+
+   3.点击服务进去,切换到选项卡`How to integrate`,比如我要在python脚本里调用. 如下:
+
+   ```python
+   import requests;requests.get("http://47.100.23.235/api/pings/1ffa2218-c9e7-4a81-94d8-a0c1660cc676/?value=")
+   ```
+
+   这里说明一下,有两种错误:
+
+   1. 长时间未上报信息给服务端
+   2. `value=xxx`,xxx可以表示一种错误
+
+   这两种都会触发告警通知.
+
+## 结尾
+
+目前服务我在阿里云部署了一个,谁需要监控一些服务可以加我微信,我会把需要ping的url发给你的,帮你监控需要的服务.
+
+![](images/self.JPG)
 
 ## 代办
 
 1. 前端资源文件加载优化，去掉不用的
-2. 
 ## 参考
 
-http://pawamoy.github.io/2018/02/01/docker-compose-django-postgres-nginx.html
+- http://pawamoy.github.io/2018/02/01/docker-compose-django-postgres-nginx.html
+- https://cronhub.io/
+
