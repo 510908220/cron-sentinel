@@ -88,8 +88,8 @@ is  a tool to monitor your scheduled jobs (or cron jobs).   简言之,就是被�
 ![](images/self.JPG)
 
 ## 代办
-
 1. 前端资源文件加载优化，去掉不用的
+
 ## 参考
 
 - http://pawamoy.github.io/2018/02/01/docker-compose-django-postgres-nginx.html
